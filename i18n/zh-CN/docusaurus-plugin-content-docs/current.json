@@ -1,0 +1,66 @@
+{
+  "version.label": {
+    "message": "最新版本",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.🚀 Getting Started": {
+    "message": "🚀 开始使用",
+    "description": "The label for category 🚀 Getting Started in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.⏱️ Quick Start": {
+    "message": "⏱️ 快速入门",
+    "description": "The label for category ⏱️ Quick Start in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.📚 Advanced Topics": {
+    "message": "📚 高级主题",
+    "description": "The label for category 📚 Advanced Topics in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.⭐ Features": {
+    "message": "⭐ 功能特性",
+    "description": "The label for category ⭐ Features in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.🛠️ Tools & Functions": {
+    "message": "🛠️ 工具和功能",
+    "description": "The label for category 🛠️ Tools & Functions in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.🧰 Functions": {
+    "message": "🧰 功能函数",
+    "description": "The label for category 🧰 Functions in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.🖥️ Workspace": {
+    "message": "🖥️ 工作空间",
+    "description": "The label for category 🖥️ Workspace in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.😏 Chat Features": {
+    "message": "😏 聊天功能",
+    "description": "The label for category 😏 Chat Features in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.🐍 Code Execution": {
+    "message": "🐍 代码执行",
+    "description": "The label for category 🐍 Code Execution in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.🛠️ Troubleshooting": {
+    "message": "🛠️ 故障排除",
+    "description": "The label for category 🛠️ Troubleshooting in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.📝 Tutorials": {
+    "message": "📝 教程指南",
+    "description": "The label for category 📝 Tutorials in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.🗨️ Text-to-Speech": {
+    "message": "🗨️ 文字转语音",
+    "description": "The label for category 🗨️ Text-to-Speech in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.🔗 Integrations": {
+    "message": "🔗 集成",
+    "description": "The label for category 🔗 Integrations in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.💡 Tips & Tricks": {
+    "message": "💡 技巧与窍门",
+    "description": "The label for category 💡 Tips & Tricks in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.⚡ Pipelines": {
+    "message": "⚡ 流水线",
+    "description": "The label for category ⚡ Pipelines in sidebar tutorialSidebar"
+  }
+}
