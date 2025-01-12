@@ -1,14 +1,14 @@
 
-# Kubernetes 的 Kustomize 设置
+## Kubernetes 的 Kustomize 设置
 
 Kustomize 使您能够自定义 Kubernetes 的 YAML 配置文件。
 
-## 前提条件
+### Kubernetes-前提条件
 
 - 已设置 Kubernetes 集群。
 - 已安装 Kustomize。
 
-## 步骤
+### Kubernetes-步骤
 
 1. **克隆 Open WebUI 清单：**
 
@@ -29,6 +29,6 @@ Kustomize 使您能够自定义 Kubernetes 的 YAML 配置文件。
    kubectl get pods
    ```
 
-## 访问 WebUI
+### Kubernetes-访问 WebUI
 
 通过设置端口转发或负载均衡，从集群外部访问 Open WebUI。
