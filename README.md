@@ -83,7 +83,19 @@ i18n\zh-CN\docusaurus-plugin-content-docs\current\getting-started\advanced-topic
 yarn write-heading-ids i18n/zh-CN/docusaurus-plugin-content-docs/current
   ```
 
-
+6. 增加搜索功能
+- 参考 https://docusaurus.nodejs.cn/docs/search#algolia-no-search-results
+- 参考 https://docusaurus.nodejs.cn/community/resources#search
+- 参考 https://jdocs.wiki/docusaurus-site/site-creation-guide/docusaurus-lunr-search
+```sh
+添加依赖
+yarn add docusaurus-lunr-search
+yarn add @node-rs/jieba
+构建
+yarn add docusaurus-lunr-search
+运行
+serve build
+```
 # Website
 
 This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
