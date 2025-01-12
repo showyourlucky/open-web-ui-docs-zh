@@ -1,3 +1,89 @@
+# 翻译步骤
+
+## 大致流程
+
+- 参考 https://docusaurus.nodejs.cn/docs/i18n/introduction
+
+## 1. 配置：在 `docusaurus.config.js` 中声明默认语言环境和替代语言环境
+
+```js
+	i18n: {
+		defaultLocale: "zh-CN",
+		locales: ["en", "zh-CN"],
+		localeConfigs: {
+			en: {
+				label: "English",
+			},
+			"zh-CN": {
+				label: "简体中文",
+			},
+		},
+	}
+```
+
+## 2. 翻译：将翻译文件放在正确的文件系统位置
+
+### 部署项目
+
+```js
+执行
+yarn
+yarn run start --locale zh-CN
+```
+
+### 1. 翻译React 代码和插件数据
+
+```js
+执行
+yarn write-translations --locale zh-CN
+翻译
+i18n\zh-CN\code.json
+```
+
+JSON 用于翻译：
+
+- React 代码：`src/pages` 中的独立 React 页面或其他组件
+- 通过 `themeConfig` 提供的布局标签：导航栏、页脚
+- 通过插件选项提供的布局标签：文档侧边栏类别标签、博客侧边栏标题...
+
+###  2. Markdown 文件
+
+1. 创建目录
+
+```js
+mkdir -p i18n/zh-CN/docusaurus-plugin-content-docs/current
+mkdir -p i18n/zh-CN/docusaurus-plugin-content-blog
+```
+
+2. 复制文件
+
+```js
+cp -r docs/** i18n/zh-CN/docusaurus-plugin-content-docs/current
+cp -r blog/** i18n/zh-CN/docusaurus-plugin-content-blog
+```
+
+3. 翻译json文件的内容
+
+```js
+i18n\zh-CN\docusaurus-plugin-content-docs\current.json
+i18n\zh-CN\code.json
+```
+
+4. 翻译md, mdx文件
+
+```js
+node .\i18n\translate-docs.js
+
+i18n\zh-CN\docusaurus-plugin-content-docs\current\getting-started\advanced-topics\env-configuration.md , 文件比较大, 优先手动翻译
+```
+
+5. 使用显式标题 ID(可选)
+
+  ```js
+yarn write-heading-ids i18n/zh-CN/docusaurus-plugin-content-docs/current
+  ```
+
+
 # Website
 
 This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
