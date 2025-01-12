@@ -1,205 +1,197 @@
 ---
 sidebar_position: 4
-title: "🌍 Environment Variable Configuration"
+title: "🌍 环境变量配置"
 ---
 
+## 概述
 
-## Overview
-
-Open WebUI provides a large range of environment variables that allow you to customize and configure
-various aspects of the application. This page serves as a comprehensive reference for all available
-environment variables, providing their types, default values, and descriptions.
-As new variables are introduced, this page will be updated to reflect the growing configuration options.
+Open WebUI 提供了大量的环境变量，允许您自定义和配置应用程序的各个方面。本页作为所有可用环境变量的全面参考，提供其类型、默认值和描述。随着新变量的引入，本页将不断更新以反映不断增长的配置选项。
 
 :::info
 
-This page is up to date with Open WebUI release version [v0.5.1](https://github.com/open-webui/open-webui/releases/tag/v0.5.1), but is still a work in progress to later include more accurate descriptions, listing out options available for environment variables, defaults, and improving descriptions.
+本页已与 Open WebUI 发布版本 [v0.5.1](https://github.com/open-webui/open-webui/releases/tag/v0.5.1) 保持同步，但仍在进行中，以便稍后包含更准确的描述，列出环境变量的可用选项、默认值并改进描述。
 
 :::
 
-### Important Note on PersistentConfig Environment Variables
+### 关于 PersistentConfig 环境变量的重要说明
 
 :::note
 
-When launching Open WebUI for the first time, all environment variables are treated equally and can be used to configure the application. However, for environment variables marked as `PersistentConfig`, their values are persisted and stored internally.
+首次启动 Open WebUI 时，所有环境变量一视同仁，可以用于配置应用程序。然而，对于标记为 `PersistentConfig` 的环境变量，其值将被持久化并在内部存储。
 
-After the initial launch, if you restart the container, `PersistentConfig` environment variables will no longer use the external environment variable values. Instead, they will use the internally stored values.
+在最初启动后，如果您重新启动容器，`PersistentConfig` 环境变量将不再使用外部环境变量值，而是使用内部存储的值。
 
-In contrast, regular environment variables will continue to be updated and applied on each subsequent restart.
+相反，常规环境变量将在每次后续重启时继续更新和应用。
 
-You can update the values of `PersistentConfig` environment variables directly from within Open WebUI, and these changes will be stored internally. This allows you to manage these configuration settings independently of the external environment variables.
+您可以直接从 Open WebUI 内部更新 `PersistentConfig` 环境变量的值，这些更改将被内部存储。这使您可以独立于外部环境变量管理这些配置设置。
 
-Please note that `PersistentConfig` environment variables are clearly marked as such in the documentation below, so you can be aware of how they will behave.
+请注意，`PersistentConfig` 环境变量在下面的文档中被清楚地标记为此，以便您了解它们的行为。
 
 :::
 
-## App/Backend
+## 应用程序/后端
 
-The following environment variables are used by `backend/config.py` to provide Open WebUI startup
-configuration. Please note that some variables may have different default values depending on
-whether you're running Open WebUI directly or via Docker. For more information on logging
-environment variables, see our [logging documentation](https://docs.openwebui.com/getting-started/advanced-topics/logging)).
+以下环境变量由 `backend/config.py` 使用，以提供 Open WebUI 启动配置。请注意，根据您是直接运行 Open WebUI 还是通过 Docker 运行，某些变量可能具有不同的默认值。有关日志记录环境变量的详细信息，请参阅我们的[日志记录文档](https://docs.openwebui.com/getting-started/advanced-topics/logging)。
 
-### General
+### 通用
 
 #### `ENV`
 
-- Type: `str` (enum: `dev`, `prod`)
-- Options:
-  - `dev` - Enables the FastAPI API docs on `/docs`
-  - `prod` - Automatically configures several environment variables
-- Default:
-  - **Backend Default**: `dev`
-  - **Docker Default**: `prod`
-- Description: Environment setting.
+- 类型: `str` (枚举: `dev`, `prod`)
+- 选项:
+  - `dev` - 启用 `/docs` 上的 FastAPI API 文档
+  - `prod` - 自动配置多个环境变量
+- 默认值:
+  - **后端默认**: `dev`
+  - **Docker 默认**: `prod`
+- 描述: 环境设置。
 
 #### `CUSTOM_NAME`
 
-- Type: `str`
-- Description: Sets `WEBUI_NAME` but polls **api.openwebui.com** for metadata.
+- 类型: `str`
+- 描述: 设置 `WEBUI_NAME`，但会轮询 **api.openwebui.com** 以获取元数据。
 
 #### `WEBUI_NAME`
 
-- Type: `str`
-- Default: `Open WebUI`
-- Description: Sets the main WebUI name. Appends `(Open WebUI)` if overridden.
+- 类型: `str`
+- 默认值: `Open WebUI`
+- 描述: 设置主 WebUI 名称。如果被覆盖，会追加 `(Open WebUI)`。
 
 #### `WEBUI_URL`
 
-- Type: `str`
-- Default: `http://localhost:3000`
-- Description: Specifies the URL where the Open WebUI is reachable. Currently used for search engine support.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `http://localhost:3000`
+- 描述: 指定 Open WebUI 可访问的 URL。目前用于搜索引擎支持。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `PORT`
 
-- Type: `int`
-- Default: `8080`
-- Description: Sets the port to run Open WebUI from.
+- 类型: `int`
+- 默认值: `8080`
+- 描述: 设置运行 Open WebUI 的端口。
 
 :::info
 
-If installed via Python, you must instead pass `--port` as a command line argument.
+如果通过 Python 安装，您必须通过命令行参数传递 `--port`。
 
 :::
 
 #### `ENABLE_SIGNUP`
 
-- Type: `bool`
-- Default: `True`
-- Description: Toggles user account creation.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 切换用户账户创建功能。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `ENABLE_LOGIN_FORM`
 
-- Type: `bool`
-- Default: `True`
-- Description: Toggles email, password, sign in and "or" (only when `ENABLE_OAUTH_SIGNUP` is set to True) elements.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 切换电子邮件、密码、登录和“或”（仅当 `ENABLE_OAUTH_SIGNUP` 设置为 True 时）元素。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 :::danger
 
-This should **only** ever be set to `False` when [ENABLE_OAUTH_SIGNUP](https://docs.openwebui.com/getting-started/advanced-topics/env-configuration/#enable_oauth_signup)
-is also being used and set to `True`. Failure to do so will result in the inability to login.
+当 [ENABLE_OAUTH_SIGNUP](https://docs.openwebui.com/getting-started/advanced-topics/env-configuration/#enable_oauth_signup) 也被使用并设置为 `True` 时，应该**仅**将此设置为 `False`。否则将无法登录。
 
 :::
 
 #### `ENABLE_REALTIME_CHAT_SAVE`
 
-- Type: `bool`
-- Default: `False`
-- Description: When enabled, the system saves each chunk of streamed chat data to the database in real time to ensure maximum data persistency. This feature provides robust data recovery and allows accurate session tracking. However, the tradeoff is increased latency, as saving to the database introduces a delay. Disabling this feature can improve performance and reduce delays, but it risks potential data loss in the event of a system failure or crash. Use based on your application's requirements and acceptable tradeoffs.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 启用后，系统将实时将每个流式聊天数据块保存到数据库中，以确保最大的数据持久性。此功能提供强大的数据恢复能力，并允许准确的会话跟踪。然而，代价是增加了延迟，因为保存到数据库会引入延迟。禁用此功能可以提高性能并减少延迟，但在系统故障或崩溃的情况下可能会导致数据丢失。根据应用程序的需求和可接受的权衡来使用。
 
 #### `ENABLE_ADMIN_EXPORT`
 
-- Type: `bool`
-- Default: `True`
-- Description: Controls whether admin users can export data.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 控制管理员用户是否可以导出数据。
 
 #### `ENABLE_ADMIN_CHAT_ACCESS`
 
-- Type: `bool`
-- Default: `True`
-- Description: Enables admin users to access all chats.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 允许管理员用户访问所有聊天。
 
 #### `ENABLE_CHANNELS`
 
-- Type: `bool`
-- Default: `False`
-- Description: Enables or disables channel support.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 启用或禁用频道支持。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `ADMIN_EMAIL`
 
-- Type: `str`
-- Description: Sets the admin email shown by `SHOW_ADMIN_DETAILS`
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置由 `SHOW_ADMIN_DETAILS` 显示的管理员电子邮件
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `SHOW_ADMIN_DETAILS`
 
-- Type: `bool`
-- Default: `True`
-- Description: Toggles whether to show admin user details in the interface.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 切换是否在界面中显示管理员用户详细信息。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `BYPASS_MODEL_ACCESS_CONTROL`
 
-- Type: `bool`
-- Default: `False`
-- Description: Bypasses model access control.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 绕过模型访问控制。
 
 #### `DEFAULT_MODELS`
 
-- Type: `str`
-- Default: empty string (' '), since `None` is set as default
-- Description: Sets a default Language Model.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: 空字符串 (' ')，因为 `None` 作为默认值
+- 描述: 设置默认的语言模型。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `DEFAULT_USER_ROLE`
 
-- Type: `str` (enum: `pending`, `user`, `admin`)
-- Options:
-  - `pending` - New users are pending until their accounts are manually activated by an admin.
-  - `user` - New users are automatically activated with regular user permissions.
-  - `admin` - New users are automatically activated with administrator permissions.
-- Default: `pending`
-- Description: Sets the default role assigned to new users.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str` (枚举: `pending`, `user`, `admin`)
+- 选项:
+  - `pending` - 新用户处于待定状态，直到管理员手动激活其账户。
+  - `user` - 新用户自动激活，具有常规用户权限。
+  - `admin` - 新用户自动激活，具有管理员权限。
+- 默认值: `pending`
+- 描述: 设置分配给新用户的默认角色。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `DEFAULT_LOCALE`
 
-- Type: `str`
-- Default: `en`
-- Description: Sets the default locale for the application.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `en`
+- 描述: 设置应用程序的默认语言环境。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `WEBHOOK_URL`
 
-- Type: `str`
-- Description: Sets a webhook for integration with Discord/Slack/Microsoft Teams.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置用于集成 Discord/Slack/Microsoft Teams 的 webhook。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `WEBUI_BUILD_HASH`
 
-- Type: `str`
-- Default: `dev-build`
-- Description: Used for identifying the Git SHA of the build for releases.
+- 类型: `str`
+- 默认值: `dev-build`
+- 描述: 用于识别发布版本构建的 Git SHA。
 
 #### `WEBUI_BANNERS`
 
-- Type: `list` of `dict`
-- Default: `[]`
-- Description: List of banners to show to users. Format of banners are:
+- 类型: `list` of `dict`
+- 默认值: `[]`
+- 描述: 向用户显示的横幅列表。横幅的格式为:
 
 ```json
 [{"id": "string","type": "string [info, success, warning, error]","title": "string","content": "string","dismissible": False,"timestamp": 1000}]
 ```
 
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 :::info
 
-When setting this environment variable in a `.env` file, make sure to escape the quotes by wrapping the entire value in double quotes and using escaped quotes (`\"`) for the inner quotes. Example:
+在 `.env` 文件中设置此环境变量时，请确保通过将整个值用双引号括起来，并对内部引号使用转义引号 (`\"`) 来转义引号。例如:
 
 ```
 WEBUI_BANNERS="[{\"id\": \"1\", \"type\": \"warning\", \"title\": \"Your messages are stored.\", \"content\": \"Your messages are stored and may be reviewed by human people. LLM's are prone to hallucinations, check sources.\", \"dismissible\": true, \"timestamp\": 1000}]"
@@ -209,164 +201,159 @@ WEBUI_BANNERS="[{\"id\": \"1\", \"type\": \"warning\", \"title\": \"Your message
 
 #### `JWT_EXPIRES_IN`
 
-- Type: `int`
-- Default: `-1`
-- Description: Sets the JWT expiration time in seconds. Valid time units: `s`, `m`, `h`, `d`, `w` or `-1` for no expiration.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `int`
+- 默认值: `-1`
+- 描述: 设置 JWT 过期时间（以秒为单位）。有效时间单位：`s`、`m`、`h`、`d`、`w` 或 `-1` 表示不过期。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `USE_CUDA_DOCKER`
 
-- Type: `bool`
-- Default: `False`
-- Description: Builds the Docker image with NVIDIA CUDA support. Enables GPU acceleration
-for local Whisper and embeddings.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 构建具有 NVIDIA CUDA 支持的 Docker 镜像。启用本地 Whisper 和嵌入的 GPU 加速。
 
-### AIOHTTP Client
+### AIOHTTP 客户端
 
 #### `AIOHTTP_CLIENT_TIMEOUT`
 
-- Type: `int`
-- Default: `300`
-- Description: Specifies the timeout duration in seconds for the aiohttp client. This impacts things
-such as connections to Ollama and OpenAI endpoints.
+- 类型: `int`
+- 默认值: `300`
+- 描述: 指定 aiohttp 客户端的超时时间（以秒为单位）。这会影响与 Ollama 和 OpenAI 端点的连接等。
 
 :::info
 
-This is the maximum amount of time the client will wait for a response before timing out.
-If set to an empty string (' '), the timeout will be set to `None`, effectively disabling the timeout and
-allowing the client to wait indefinitely.
+这是客户端在超时之前等待响应的最大时间。如果设置为空字符串 (' ')，超时将设置为 `None`，有效地禁用超时并允许客户端无限期等待。
 
 :::
 
 #### `AIOHTTP_CLIENT_TIMEOUT_OPENAI_MODEL_LIST`
 
-- Type: `int`
-- Description: Sets the timeout in seconds for fetching the OpenAI model list. This can be useful in cases where network latency requires a longer timeout duration to successfully retrieve the model list.
+- 类型: `int`
+- 描述: 设置获取 OpenAI 模型列表的超时时间（以秒为单位）。在网络延迟需要更长超时才能成功检索模型列表的情况下，这可能很有用。
 
-### Directories
+### 目录
 
 #### `DATA_DIR`
 
-- Type: `str`
-- Default: `./data`
-- Description: Specifies the base directory for data storage, including uploads, cache, vector database, etc.
+- 类型: `str`
+- 默认值: `./data`
+- 描述: 指定数据存储的基本目录，包括上传、缓存、向量数据库等。
 
 #### `FONTS_DIR`
 
-- Type: `str`
-- Description: Specifies the directory for fonts.
+- 类型: `str`
+- 描述: 指定字体的目录。
 
 #### `FRONTEND_BUILD_DIR`
 
-- Type: `str`
-- Default: `../build`
-- Description: Specifies the location of the built frontend files.
+- 类型: `str`
+- 默认值: `../build`
+- 描述: 指定构建的前端文件的位置。
 
 #### `STATIC_DIR`
 
-- Type: `str`
-- Default: `./static`
-- Description: Specifies the directory for static files, such as the favicon.
+- 类型: `str`
+- 默认值: `./static`
+- 描述: 指定静态文件的目录，例如图标。
 
 ### Ollama
 
 #### `ENABLE_OLLAMA_API`
 
-- Type: `bool`
-- Default: `True`
-- Description: Enables the use of Ollama APIs.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 启用 Ollama API 的使用。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
-#### `OLLAMA_BASE_URL` (`OLLAMA_API_BASE_URL` is depreciated) {#ollama_base_url}
+#### `OLLAMA_BASE_URL` (`OLLAMA_API_BASE_URL` 已弃用) {#ollama_base_url}
 
-- Type: `str`
-- Default: `http://localhost:11434`
-- Docker Default:
-  - If `K8S_FLAG` is set: `http://ollama-service.open-webui.svc.cluster.local:11434`
-  - If `USE_OLLAMA_DOCKER=True`: `http://localhost:11434`
-  - Else `http://host.docker.internal:11434`
-- Description: Configures the Ollama backend URL.
+- 类型: `str`
+- 默认值: `http://localhost:11434`
+- Docker 默认值:
+  - 如果设置了 `K8S_FLAG`：`http://ollama-service.open-webui.svc.cluster.local:11434`
+  - 如果 `USE_OLLAMA_DOCKER=True`：`http://localhost:11434`
+  - 否则 `http://host.docker.internal:11434`
+- 描述: 配置 Ollama 后端 URL。
 
 #### `OLLAMA_BASE_URLS`
 
-- Type: `str`
-- Description: Configures load-balanced Ollama backend hosts, separated by `;`. See
-[`OLLAMA_BASE_URL`](#ollama_base_url). Takes precedence over[`OLLAMA_BASE_URL`](#ollama_base_url).
-- Example: `http://host-one:11434;http://host-two:11434`
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 配置负载均衡的 Ollama 后端主机，以 `;` 分隔。参见[`OLLAMA_BASE_URL`](#ollama_base_url)。优先于[`OLLAMA_BASE_URL`](#ollama_base_url)。
+- 示例: `http://host-one:11434;http://host-two:11434`
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `USE_OLLAMA_DOCKER`
 
-- Type: `bool`
-- Default: `False`
-- Description: Builds the Docker image with a bundled Ollama instance.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 构建包含捆绑的 Ollama 实例的 Docker 镜像。
 
 #### `K8S_FLAG`
 
-- Type: `bool`
-- Default: `False`
-- Description: If set, assumes Helm chart deployment and sets [`OLLAMA_BASE_URL`](#ollama_base_url) to `http://ollama-service.open-webui.svc.cluster.local:11434`
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 如果设置，假定 Helm 图表部署并将 [`OLLAMA_BASE_URL`](#ollama_base_url) 设置为 `http://ollama-service.open-webui.svc.cluster.local:11434`
 
 ### OpenAI
 
 #### `ENABLE_OPENAI_API`
 
-- Type: `bool`
-- Default: `True`
-- Description: Enables the use of OpenAI APIs.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 启用 OpenAI API 的使用。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `OPENAI_API_BASE_URL`
 
-- Type: `str`
-- Default: `https://api.openai.com/v1`
-- Description: Configures the OpenAI base API URL.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `https://api.openai.com/v1`
+- 描述: 配置 OpenAI 基础 API URL。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `OPENAI_API_BASE_URLS`
 
-- Type: `str`
-- Description: Supports balanced OpenAI base API URLs, semicolon-separated.
-- Example: `http://host-one:11434;http://host-two:11434`
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 支持均衡的 OpenAI 基础 API URL，以分号分隔。
+- 示例: `http://host-one:11434;http://host-two:11434`
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `OPENAI_API_KEY`
 
-- Type: `str`
-- Description: Sets the OpenAI API key.
-- Example: `sk-124781258123`
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 OpenAI API 密钥。
+- 示例: `sk-124781258123`
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `OPENAI_API_KEYS`
 
-- Type: `str`
-- Description: Supports multiple OpenAI API keys, semicolon-separated.
-- Example: `sk-124781258123;sk-4389759834759834`
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 支持多个 OpenAI API 密钥，以分号分隔。
+- 示例: `sk-124781258123;sk-4389759834759834`
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
-### Tasks
+### 任务
 
 #### `TASK_MODEL`
 
-- Type: `str`
-- Description: The default model to use for tasks such as title and web search query generation
-when using Ollama models.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 默认用于任务（如标题和网络搜索查询生成）的模型
+当使用 Ollama 模型时。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `TASK_MODEL_EXTERNAL`
 
-- Type: `str`
-- Description: The default model to use for tasks such as title and web search query generation
-when using OpenAI-compatible endpoints.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 默认用于任务（如标题和网络搜索查询生成）的模型
+当使用 OpenAI 兼容端点时。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `TITLE_GENERATION_PROMPT_TEMPLATE`
 
-- Type: `str`
-- Description: Prompt to use when generating chat titles.
-- Default: The value of `DEFAULT_TITLE_GENERATION_PROMPT_TEMPLATE` environment variable.
+- 类型: `str`
+- 描述: 生成聊天标题时使用的提示。
+- 默认值: `DEFAULT_TITLE_GENERATION_PROMPT_TEMPLATE` 环境变量的值。
 
-Template:
+模板:
 
 ```
 Create a concise, 3-5 word title with an emoji as a title for the chat history, in the given language. Suitable Emojis for the summary can be used to enhance understanding but avoid quotation marks or special formatting. RESPOND ONLY WITH THE TITLE TEXT.
@@ -383,50 +370,50 @@ Artificial Intelligence in Healthcare
 {{MESSAGES:END:2}}
 ```
 
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `TOOLS_FUNCTION_CALLING_PROMPT_TEMPLATE`
 
-- Type: `str`
-- Description: Prompt to use when calling tools.
-- Default: The value of `DEFAULT_TOOLS_FUNCTION_CALLING_PROMPT_TEMPLATE` environment variable.
+- 类型: `str`
+- 描述: 调用工具时使用的提示。
+- 默认值: `DEFAULT_TOOLS_FUNCTION_CALLING_PROMPT_TEMPLATE` 环境变量的值。
 
-Template:
+模板:
 
 ```
 Available Tools: {{TOOLS}}\nReturn an empty string if no tools match the query. If a function tool matches, construct and return a JSON object in the format {\"name\": \"functionName\", \"parameters\": {\"requiredFunctionParamKey\": \"requiredFunctionParamValue\"}} using the appropriate tool and its parameters. Only return the object and limit the response to the JSON object without additional text.
 ```
 
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
-### Autocomplete
+### 自动补全
 
 #### `ENABLE_AUTOCOMPLETE_GENERATION`
 
-- Type: `bool`
-- Default: `True`
-- Description: Enables or disables autocomplete generation.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 启用或禁用自动补全生成。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 :::info
 
-When enabling `ENABLE_AUTOCOMPLETE_GENERATION`, ensure that you also configure `AUTOCOMPLETE_GENERATION_INPUT_MAX_LENGTH` and `AUTOCOMPLETE_GENERATION_PROMPT_TEMPLATE` accordingly.
+启用 `ENABLE_AUTOCOMPLETE_GENERATION` 时，请确保相应配置 `AUTOCOMPLETE_GENERATION_INPUT_MAX_LENGTH` 和 `AUTOCOMPLETE_GENERATION_PROMPT_TEMPLATE`。
 
 :::
 
 #### `AUTOCOMPLETE_GENERATION_INPUT_MAX_LENGTH`
 
-- Type: `int`
-- Default: `-1`
-- Description: Sets the maximum input length for autocomplete generation.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `int`
+- 默认值: `-1`
+- 描述: 设置自动补全生成的最大输入长度。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `AUTOCOMPLETE_GENERATION_PROMPT_TEMPLATE`
 
-- Type: `str`
-- Default: The value of `DEFAULT_AUTOCOMPLETE_GENERATION_PROMPT_TEMPLATE` environment variable.
+- 类型: `str`
+- 默认值: `DEFAULT_AUTOCOMPLETE_GENERATION_PROMPT_TEMPLATE` 环境变量的值。
 
-Template:
+模板:
 
 ```
 ### Task:
@@ -471,47 +458,47 @@ Output:
 #### Output:
 ```
 
-- Description: Sets the prompt template for autocomplete generation.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 描述: 设置自动补全生成的提示模板。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
-### Evaluation Arena Model
+### 评估竞技场模型
 
 #### `ENABLE_EVALUATION_ARENA_MODELS`
 
-- Type: `bool`
-- Default: `True`
-- Description: Enables or disables evaluation arena models.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 启用或禁用评估竞技场模型。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `ENABLE_MESSAGE_RATING`
 
-- Type: `bool`
-- Default: `True`
-- Description: Enables message rating feature.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 启用消息评级功能。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `ENABLE_COMMUNITY_SHARING`
 
-- Type: `bool`
-- Default: `True`
-- Description: Controls whether users are shown the share to community button.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 控制用户是否可以看到分享至社区的按钮。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
-### Tags Generation
+### 标签生成
 
 #### `ENABLE_TAGS_GENERATION`
 
-- Type: `bool`
-- Default: `True`
-- Description: Enables or disables tags generation.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 启用或禁用标签生成。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `TAGS_GENERATION_PROMPT_TEMPLATE`
 
-- Type: `str`
-- Default: The value of `DEFAULT_TAGS_GENERATION_PROMPT_TEMPLATE` environment variable.
+- 类型: `str`
+- 默认值: `DEFAULT_TAGS_GENERATION_PROMPT_TEMPLATE` 环境变量的值。
 
-Template:
+模板:
 
 ```
 ### Task:
@@ -533,38 +520,38 @@ JSON format: { "tags": ["tag1", "tag2", "tag3"] }
 </chat_history>
 ```
 
-- Description: Sets the prompt template for tags generation.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 描述: 设置标签生成提示模板。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
-### API Key Endpoint Restrictions
+### API 密钥端点限制
 
 #### `ENABLE_API_KEY_ENDPOINT_RESTRICTIONS`
 
-- Type: `bool`
-- Default: `False`
-- Description: Enables API key endpoint restrictions for added security and configurability.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 启用 API 密钥端点限制以增强安全性和可配置性。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `API_KEY_ALLOWED_ENDPOINTS`
 
-- Type: `str`
-- Description: Specifies a comma-separated list of allowed API endpoints when API key endpoint restrictions are enabled.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 指定启用 API 密钥端点限制时允许的 API 端点的逗号分隔列表。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 :::note
 
-The value of `API_KEY_ALLOWED_ENDPOINTS` should be a comma-separated list of endpoint URLs, such as `/api/v1/messages, /api/v1/channels`.
+`API_KEY_ALLOWED_ENDPOINTS` 的值应为端点 URL 的逗号分隔列表，例如 `/api/v1/messages, /api/v1/channels`。
 
 :::
 
-## Security Variables
+## 安全变量
 
 #### `ENABLE_FORWARD_USER_INFO_HEADERS`
 
-- type: `bool`
-- Default: `False`
-- Description: Forwards user information (name, id, email, and role) as X-headers to OpenAI API.
-If enabled, the following headers are forwarded:
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 将用户信息（姓名、id、电子邮件和角色）作为 X-headers 转发到 OpenAI API。
+如果启用，以下标头将被转发：
   - `X-OpenWebUI-User-Name`
   - `X-OpenWebUI-User-Id`
   - `X-OpenWebUI-User-Email`
@@ -572,178 +559,169 @@ If enabled, the following headers are forwarded:
 
 #### `ENABLE_RAG_LOCAL_WEB_FETCH`
 
-- Type: `bool`
-- Default: `False`
-- Description: Enables local web fetching for RAG. Enabling this allows Server Side Request
-Forgery attacks against local network resources.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 启用本地 Web 获取以用于 RAG。启用此选项允许针对本地网络资源的服务器端请求伪造攻击。
 
 #### `ENABLE_RAG_WEB_LOADER_SSL_VERIFICATION`
 
-- Type: `bool`
-- Default: `True`
-- Description: Bypass SSL Verification for RAG on Websites.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 绕过网站 RAG 的 SSL 验证。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `WEBUI_SESSION_COOKIE_SAME_SITE`
 
-- Type: `str` (enum: `lax`, `strict`, `none`)
-- Options:
-  - `lax` - Sets the `SameSite` attribute to lax, allowing session cookies to be sent with
-requests initiated by third-party websites.
-  - `strict` - Sets the `SameSite` attribute to strict, blocking session cookies from being sent
-with requests initiated by third-party websites.
-  - `none` - Sets the `SameSite` attribute to none, allowing session cookies to be sent with
-requests initiated by third-party websites, but only over HTTPS.
-- Default: `lax`
-- Description: Sets the `SameSite` attribute for session cookies.
+- 类型: `str` (枚举: `lax`, `strict`, `none`)
+- 选项:
+  - `lax` - 将 `SameSite` 属性设置为 lax，允许会话 cookie 随第三方网站发起的请求一起发送。
+  - `strict` - 将 `SameSite` 属性设置为 strict，阻止会话 cookie 随第三方网站发起的请求一起发送。
+  - `none` - 将 `SameSite` 属性设置为 none，允许会话 cookie 随第三方网站发起的请求一起发送，但仅限于 HTTPS。
+- 默认值: `lax`
+- 描述: 设置会话 cookie 的 `SameSite` 属性。
 
 #### `WEBUI_SESSION_COOKIE_SECURE`
 
-- Type: `bool`
-- Default: `False`
-- Description: Sets the `Secure` attribute for session cookies if set to `True`.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 如果设置为 `True`，则为会话 cookie 设置 `Secure` 属性。
 
 #### `WEBUI_AUTH`
 
-- Type: `bool`
-- Default: `True`
-- Description: This setting enables or disables authentication.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 此设置启用或禁用身份验证。
 
 :::danger
 
-If set to `False`, authentication will be disabled for your Open WebUI instance. However, it's
-important to note that turning off authentication is only possible for fresh installations without
-any existing users. If there are already users registered, you cannot disable authentication
-directly. Ensure that no users are present in the database, if you intend to turn off `WEBUI_AUTH`.
+如果设置为 `False`，则您的 Open WebUI 实例将禁用身份验证。但是，请注意，关闭身份验证仅适用于没有现有用户的新安装。如果已经有用户注册，您无法直接禁用身份验证。如果打算关闭 `WEBUI_AUTH`，请确保数据库中没有用户存在。
 
 :::
 
 #### `WEBUI_SECRET_KEY`
 
-- Type: `str`
-- Default: `t0p-s3cr3t`
-- Docker Default: Randomly generated on first start
-- Description: Overrides the randomly generated string used for JSON Web Token.
+- 类型: `str`
+- 默认值: `t0p-s3cr3t`
+- Docker 默认值: 首次启动时随机生成
+- 描述: 覆盖用于 JSON Web Token 的随机生成字符串。
 
 #### `OFFLINE_MODE`
 
-- Type: `bool`
-- Default: `False`
-- Description: Enables or disables offline mode.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 启用或禁用离线模式。
 
 #### `RESET_CONFIG_ON_START`
 
-- Type: `bool`
-- Default: `False`
-- Description: Resets the `config.json` file on startup.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 在启动时重置 `config.json` 文件。
 
 #### `SAFE_MODE`
 
-- Type: `bool`
-- Default: `False`
-- Description: Enables safe mode, which disables potentially unsafe features, deactivating all functions.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 启用安全模式，它禁用潜在的不安全功能，停用所有功能。
 
 #### `CORS_ALLOW_ORIGIN`
 
-- Type: `str`
-- Default: `*`
-- Description: Sets the allowed origins for Cross-Origin Resource Sharing (CORS).
+- 类型: `str`
+- 默认值: `*`
+- 描述: 设置允许的跨源资源共享（CORS）来源。
 
 #### `RAG_EMBEDDING_MODEL_TRUST_REMOTE_CODE`
 
-- Type: `bool`
-- Default: `False`
-- Description: Determines whether or not to allow custom models defined on the Hub in their own modeling files.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 决定是否允许在 Hub 上定义的自定义模型使用自己的建模文件。
 
 #### `RAG_RERANKING_MODEL_TRUST_REMOTE_CODE`
 
-- Type: `bool`
-- Default: `False`
-- Description: Determines whether or not to allow custom models defined on the Hub in their own
-modeling files for reranking.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 决定是否允许在 Hub 上定义的自定义模型使用自己的建模文件进行重新排序。
 
 #### `RAG_EMBEDDING_MODEL_AUTO_UPDATE`
 
-- Type: `bool`
-- Default: `True`
-- Description: Toggles automatic update of the Sentence-Transformer model.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 切换 Sentence-Transformer 模型的自动更新。
 
 #### `RAG_RERANKING_MODEL_AUTO_UPDATE`
 
-- Type: `bool`
-- Default: `True`
-- Description: Toggles automatic update of the reranking model.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 切换重新排序模型的自动更新。
 
 #### `WHISPER_MODEL_AUTO_UPDATE`
 
-- Type: `bool`
-- Default: `False`
-- Description: Toggles automatic update of the Whisper model.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 切换 Whisper 模型的自动更新。
 
-## Retrieval Augmented Generation (RAG)
+## 检索增强生成（RAG）
 
 #### `VECTOR_DB`
 
-- Type: `str`
-- Options:
+- 类型: `str`
+- 选项:
 - `chroma`, `milvus`, `qdrant`, `opensearch`, `pgvector`
-- Default: `chroma`
-- Description: Specifies which vector database system to use. This setting determines which vector storage system will be used for managing embeddings.
+- 默认值: `chroma`
+- 描述: 指定要使用的向量数据库系统。此设置决定使用哪个向量存储系统来管理嵌入。
 
 #### `RAG_EMBEDDING_ENGINE`
 
-- Type: `str` (enum: `ollama`, `openai`)
-- Options:
-  - Leave empty for `Default (SentenceTransformers)` - Uses SentenceTransformers for embeddings.
-  - `ollama` - Uses the Ollama API for embeddings.
-  - `openai` - Uses the OpenAI API for embeddings.
-- Description: Selects an embedding engine to use for RAG.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str` (枚举: `ollama`, `openai`)
+- 选项:
+  - 留空表示 `Default (SentenceTransformers)` - 使用 SentenceTransformers 进行嵌入。
+  - `ollama` - 使用 Ollama API 进行嵌入。
+  - `openai` - 使用 OpenAI API 进行嵌入。
+- 描述: 选择用于 RAG 的嵌入引擎。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `RAG_EMBEDDING_MODEL`
 
-- Type: `str`
-- Default: `sentence-transformers/all-MiniLM-L6-v2`
-- Description: Sets a model for embeddings. Locally, a Sentence-Transformer model is used.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `sentence-transformers/all-MiniLM-L6-v2`
+- 描述: 设置嵌入的模型。本地使用 Sentence-Transformer 模型。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `ENABLE_RAG_HYBRID_SEARCH`
 
-- Type: `bool`
-- Default: `False`
-- Description: Enables the use of ensemble search with `BM25` + `ChromaDB`, with reranking using
-`sentence_transformers` models.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 启用使用 `BM25` + `ChromaDB` 的集成搜索，并使用 `sentence_transformers` 模型进行重新排序。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `CONTENT_EXTRACTION_ENGINE`
 
-- Type: `str` (`tika`)
-- Options:
-  - Leave empty to use default
-  - `tika` - Use a local Apache Tika server
-- Description: Sets the content extraction engine to use for document ingestion.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str` (`tika`)
+- 选项:
+  - 留空以使用默认值
+  - `tika` - 使用本地 Apache Tika 服务器
+- 描述: 设置用于文档摄取的内容提取引擎。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `RAG_TOP_K`
 
-- Type: `int`
-- Default: `3`
-- Description: Sets the default number of results to consider when using RAG.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `int`
+- 默认值: `3`
+- 描述: 设置使用 RAG 时要考虑的默认结果数量。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `RAG_RELEVANCE_THRESHOLD`
 
-- Type: `float`
-- Default: `0.0`
-- Description: Sets the relevance threshold to consider for documents when used with reranking.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `float`
+- 默认值: `0.0`
+- 描述: 设置重新排序时考虑的文档相关性阈值。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `RAG_TEMPLATE`
 
-- Type: `str`
-- Default: The value of `DEFAULT_RAG_TEMPLATE` environment variable.
+- 类型: `str`
+- 默认值: `DEFAULT_RAG_TEMPLATE` 环境变量的值。
 
-Template:
+模板:
 
 ```
 ### Task:
@@ -777,127 +755,127 @@ Provide a clear and direct response to the user's query, including inline citati
 </user_query>
 ```
 
-- Description: Template to use when injecting RAG documents into chat completion
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 描述: 将 RAG 文档注入聊天完成时使用的模板
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `RAG_TEXT_SPLITTER`
 
-- Type: `str`
-- Options: `character`, `token`
-- Default: `character`
-- Description: Sets the text splitter for RAG models.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 选项: `character`, `token`
+- 默认值: `character`
+- 描述: 设置 RAG 模型的文本分割器。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `TIKTOKEN_CACHE_DIR`
 
-- Type: `str`
-- Default: `{CACHE_DIR}/tiktoken`
-- Description: Sets the directory for TikiToken cache.
+- 类型: `str`
+- 默认值: `{CACHE_DIR}/tiktoken`
+- 描述: 设置 TikiToken 缓存的目录。
 
 #### `TIKTOKEN_ENCODING_NAME`
 
-- Type: `str`
-- Default: `cl100k_base`
-- Description: Sets the encoding name for TikiToken.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `cl100k_base`
+- 描述: 设置 TikiToken 的编码名称。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `CHUNK_SIZE`
 
-- Type: `int`
-- Default: `1000`
-- Description: Sets the document chunk size for embeddings.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `int`
+- 默认值: `1000`
+- 描述: 设置嵌入文档的块大小。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `CHUNK_OVERLAP`
 
-- Type: `int`
-- Default: `100`
-- Description: Specifies how much overlap there should be between chunks.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `int`
+- 默认值: `100`
+- 描述: 指定块之间的重叠量。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `PDF_EXTRACT_IMAGES`
 
-- Type: `bool`
-- Default: `False`
-- Description: Extracts images from PDFs using OCR when loading documents.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 使用 OCR 从 PDF 中提取图像时加载文档。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `RAG_FILE_MAX_SIZE`
 
-- Type: `int`
-- Description: Sets the maximum size of a file that can be uploaded for document ingestion.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `int`
+- 描述: 设置可以上传以进行文档摄取的文件的最大大小。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `RAG_FILE_MAX_COUNT`
 
-- Type: `int`
-- Description: Sets the maximum number of files that can be uploaded at once for document ingestion.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `int`
+- 描述: 设置可以一次上传以进行文档摄取的文件的最大数量。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 :::info
 
-When configuring `RAG_FILE_MAX_SIZE` and `RAG_FILE_MAX_COUNT`, ensure that the values are reasonable to prevent excessive file uploads and potential performance issues.
+配置 `RAG_FILE_MAX_SIZE` 和 `RAG_FILE_MAX_COUNT` 时，请确保值合理，以防止过多的文件上传和潜在的性能问题。
 
 :::
 
 #### `RAG_RERANKING_MODEL`
 
-- Type: `str`
-- Description: Sets a model for reranking results. Locally, a Sentence-Transformer model is used.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置重新排序结果的模型。本地使用 Sentence-Transformer 模型。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `RAG_OPENAI_API_BASE_URL`
 
-- Type: `str`
-- Default: `${OPENAI_API_BASE_URL}`
-- Description: Sets the OpenAI base API URL to use for RAG embeddings.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `${OPENAI_API_BASE_URL}`
+- 描述: 设置用于 RAG 嵌入的 OpenAI 基础 API URL。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `RAG_OPENAI_API_KEY`
 
-- Type: `str`
-- Default: `${OPENAI_API_KEY}`
-- Description: Sets the OpenAI API key to use for RAG embeddings.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `${OPENAI_API_KEY}`
+- 描述: 设置用于 RAG 嵌入的 OpenAI API 密钥。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `RAG_EMBEDDING_OPENAI_BATCH_SIZE`
 
-- Type: `int`
-- Default: `1`
-- Description: Sets the batch size for OpenAI embeddings.
+- 类型: `int`
+- 默认值: `1`
+- 描述: 设置 OpenAI 嵌入的批次大小。
 
 #### `RAG_EMBEDDING_BATCH_SIZE`
 
-- Type: `int`
-- Default: `1`
-- Description: Sets the batch size for embedding in RAG (Retrieval-Augmented Generator) models.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `int`
+- 默认值: `1`
+- 描述: 设置 RAG（检索增强生成器）模型中嵌入的批次大小。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `RAG_OLLAMA_API_KEY`
 
-- Type: `str`
-- Description: Sets the API key for Ollama API used in RAG models.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置用于 RAG 模型的 Ollama API 密钥。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `RAG_OLLAMA_BASE_URL`
 
-- Type: `str`
-- Description: Sets the base URL for Ollama API used in RAG models.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置用于 RAG 模型的 Ollama API 基础 URL。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `ENABLE_RETRIEVAL_QUERY_GENERATION`
 
-- Type: `bool`
-- Default: `True`
-- Description: Enables or disables retrieval query generation.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 启用或禁用检索查询生成。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `QUERY_GENERATION_PROMPT_TEMPLATE`
 
-- Type: `str`
-- Default: The value of `DEFAULT_QUERY_GENERATION_PROMPT_TEMPLATE` environment variable.
+- 类型: `str`
+- 默认值: `DEFAULT_QUERY_GENERATION_PROMPT_TEMPLATE` 环境变量的值。
 
-Template:
+模板:
 
 ```
 ### Task:
@@ -924,525 +902,525 @@ Strictly return in JSON format:
 </chat_history>
 ```
 
-- Description: Sets the prompt template for query generation.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 描述: 设置查询生成的提示模板。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 ### Apache Tika
 
 #### `TIKA_SERVER_URL`
 
-- Type: `str`
-- Default: `http://localhost:9998`
-- Description: Sets the URL for the Apache Tika server.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `http://localhost:9998`
+- 描述: 设置 Apache Tika 服务器的 URL。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 ### ChromaDB
 
 #### `CHROMA_TENANT`
 
-- Type: `str`
-- Default: the value of `chromadb.DEFAULT_TENANT` (a constant in the `chromadb` module)
-- Description: Sets the tenant for ChromaDB to use for RAG embeddings.
+- 类型: `str`
+- 默认值: `chromadb.DEFAULT_TENANT` 的值（`chromadb` 模块中的常量）
+- 描述: 为 ChromaDB 设置租户以用于 RAG 嵌入。
 
 #### `CHROMA_DATABASE`
 
-- Type: `str`
-- Default: the value of `chromadb.DEFAULT_DATABASE` (a constant in the `chromadb` module)
-- Description: Sets the database in the ChromaDB tenant to use for RAG embeddings.
+- 类型: `str`
+- 默认值: `chromadb.DEFAULT_DATABASE` 的值（`chromadb` 模块中的常量）
+- 描述: 设置 ChromaDB 租户中用于 RAG 嵌入的数据库。
 
 #### `CHROMA_HTTP_HOST`
 
-- Type: `str`
-- Description: Specifies the hostname of a remote ChromaDB Server. Uses a local ChromaDB instance if not set.
+- 类型: `str`
+- 描述: 指定远程 ChromaDB 服务器的主机名。如果未设置，则使用本地 ChromaDB 实例。
 
 #### `CHROMA_HTTP_PORT`
 
-- Type: `int`
-- Default: `8000`
-- Description: Specifies the port of a remote ChromaDB Server.
+- 类型: `int`
+- 默认值: `8000`
+- 描述: 指定远程 ChromaDB 服务器的端口。
 
 #### `CHROMA_HTTP_HEADERS`
 
-- Type: `str`
-- Description: Comma-separated list of HTTP headers to include with every ChromaDB request.
-- Example: `Authorization=Bearer heuhagfuahefj,User-Agent=OpenWebUI`.
+- 类型: `str`
+- 描述: 包含在每个 ChromaDB 请求中的 HTTP 标头的逗号分隔列表。
+- 示例: `Authorization=Bearer heuhagfuahefj,User-Agent=OpenWebUI`。
 
 #### `CHROMA_HTTP_SSL`
 
-- Type: `bool`
-- Default: `False`
-- Description: Controls whether or not SSL is used for ChromaDB Server connections.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 控制是否为 ChromaDB 服务器连接使用 SSL。
 
 #### `CHROMA_CLIENT_AUTH_PROVIDER`
 
-- Type: `str`
-- Description: Specifies auth provider for remote ChromaDB Server.
-- Example: `chromadb.auth.basic_authn.BasicAuthClientProvider`
+- 类型: `str`
+- 描述: 指定远程 ChromaDB 服务器的身份验证提供者。
+- 示例: `chromadb.auth.basic_authn.BasicAuthClientProvider`
 
 #### `CHROMA_CLIENT_AUTH_CREDENTIALS`
 
-- Type: `str`
-- Description: Specifies auth credentials for remote ChromaDB Server.
-- Example: `username:password`
+- 类型: `str`
+- 描述: 指定远程 ChromaDB 服务器的身份验证凭证。
+- 示例: `username:password`
 
 ### Google Drive
 
 #### `ENABLE_GOOGLE_DRIVE_INTEGRATION`
 
-- Type: `bool`
-- Default: `False`
-- Description: Enables or disables Google Drive integration. If set to true, and `GOOGLE_DRIVE_CLIENT_ID` & `GOOGLE_DRIVE_API_KEY` are both configured, Google Drive will appear as an upload option in the chat UI.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 启用或禁用 Google Drive 集成。如果设置为 true，并且 `GOOGLE_DRIVE_CLIENT_ID` 和 `GOOGLE_DRIVE_API_KEY` 都已配置，Google Drive 将作为聊天 UI 中的上传选项出现。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 :::info
 
-When enabling `GOOGLE_DRIVE_INTEGRATION`, ensure that you have configured `GOOGLE_DRIVE_CLIENT_ID` and `GOOGLE_DRIVE_API_KEY` correctly, and have reviewed Google's terms of service and usage guidelines.
+启用 `GOOGLE_DRIVE_INTEGRATION` 时，请确保已正确配置 `GOOGLE_DRIVE_CLIENT_ID` 和 `GOOGLE_DRIVE_API_KEY`，并审查 Google 的服务条款和使用指南。
 
 :::
 
 #### `GOOGLE_DRIVE_CLIENT_ID`
 
-- Type: `str`
-- Description: Sets the client ID for Google Drive (client must be configured with Drive API and Picker API enabled).
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Google Drive 的客户端 ID（客户端必须配置了已启用的 Drive API 和 Picker API）。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `GOOGLE_DRIVE_API_KEY`
 
-- Type: `str`
-- Description: Sets the API key for Google Drive integration.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Google Drive 集成的 API 密钥。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 ### Milvus
 
 #### `MILVUS_URI`
 
-- Type: `str`
-- Default: `${DATA_DIR}/vector_db/milvus.db`
-- Description: Specifies the URI for connecting to the Milvus vector database. This can point to a local or remote Milvus server based on the deployment configuration.
+- 类型: `str`
+- 默认值: `${DATA_DIR}/vector_db/milvus.db`
+- 描述: 指定用于连接到 Milvus 向量数据库的 URI。根据部署配置，这可以指向本地或远程 Milvus 服务器。
 
 ### OpenSearch
 
 #### `OPENSEARCH_CERT_VERIFY`
 
-- Type: `bool`
-- Default: `False`
-- Description: Enables or disables OpenSearch certificate verification.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 启用或禁用 OpenSearch 证书验证。
 
 #### `OPENSEARCH_PASSWORD`
 
-- Type: `str`
-- Description: Sets the password for OpenSearch.
+- 类型: `str`
+- 描述: 设置 OpenSearch 的密码。
 
 #### `OPENSEARCH_SSL`
 
-- Type: `bool`
-- Default: `True`
-- Description: Enables or disables SSL for OpenSearch.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 启用或禁用 OpenSearch 的 SSL。
 
 #### `OPENSEARCH_URI`
 
-- Type: `str`
-- Default: `https://localhost:9200`
-- Description: Sets the URI for OpenSearch.
+- 类型: `str`
+- 默认值: `https://localhost:9200`
+- 描述: 设置 OpenSearch 的 URI。
 
 #### `OPENSEARCH_USERNAME`
 
-- Type: `str`
-- Description: Sets the username for OpenSearch.
+- 类型: `str`
+- 描述: 设置 OpenSearch 的用户名。
 
 ### PGVector
 
 #### `PGVECTOR_DB_URL`
 
-- Type: `str`
-- Default: The value of `DATABASE_URL` environment variable
-- Description: Sets the database URL for model storage.
+- 类型: `str`
+- 默认值: `DATABASE_URL` 环境变量的值
+- 描述: 设置模型存储的数据库 URL。
 
 ### Qdrant
 
 #### `QDRANT_API_KEY`
 
-- Type: `str`
-- Description: Sets the API key for Qdrant.
+- 类型: `str`
+- 描述: 设置 Qdrant 的 API 密钥。
 
 #### `QDRANT_URI`
 
-- Type: `str`
-- Description: Sets the URI for Qdrant.
+- 类型: `str`
+- 描述: 设置 Qdrant 的 URI。
 
-## Web Search
+## 网络搜索
 
 #### `ENABLE_RAG_WEB_SEARCH`
 
-- Type: `bool`
-- Default: `False`
-- Description: Enable web search toggle
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 启用网络搜索切换
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `ENABLE_SEARCH_QUERY_GENERATION`
 
-- Type: `bool`
-- Default: `True`
-- Description: Enables or disables search query generation.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 启用或禁用搜索查询生成。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `RAG_WEB_SEARCH_RESULT_COUNT`
 
-- Type: `int`
-- Default: `3`
-- Description: Maximum number of search results to crawl.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `int`
+- 默认值: `3`
+- 描述: 要抓取的最大搜索结果数。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `RAG_WEB_SEARCH_CONCURRENT_REQUESTS`
 
-- Type: `int`
-- Default: `10`
-- Description: Number of concurrent requests to crawl web pages returned from search results.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `int`
+- 默认值: `10`
+- 描述: 抓取搜索结果返回的网页的并发请求数。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `RAG_WEB_SEARCH_ENGINE`
 
-- Type: `str` (enum: `searxng`, `google_pse`, `brave`, `kagi`, `mojeek`, `serpstack`, `serper`, `serply`, `searchapi`, `duckduckgo`, `tavily`, `jina`, `bing`)
-- Options:
-  - `searxng` - Uses the [SearXNG](https://github.com/searxng/searxng) search engine.
-  - `google_pse` - Uses the [Google Programmable Search Engine](https://programmablesearchengine.google.com/about/).
-  - `brave` - Uses the [Brave search engine](https://brave.com/search/api/).
-  - `kagi` - Uses the [Kagi](https://www.kagi.com/) search engine.
-  - `mojeek` - Uses the [Mojeek](https://www.mojeek.com/) search engine.
-  - `serpstack` - Uses the [Serpstack](https://serpstack.com/) search engine.
-  - `serper` - Uses the [Serper](https://serper.dev/) search engine.
-  - `serply` - Uses the [Serply](https://serply.io/) search engine.
-  - `searchapi` - Uses the [SearchAPI](https://www.searchapi.io/) search engine.
-  - `duckduckgo` - Uses the [DuckDuckGo](https://duckduckgo.com/) search engine.
-  - `tavily` - Uses the [Tavily](https://tavily.com/) search engine.
-  - `jina` - Uses the [Jina](https://jina.ai/) search engine.
-  - `bing` - Uses the [Bing](https://www.bing.com/) search engine.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str` (枚举: `searxng`, `google_pse`, `brave`, `kagi`, `mojeek`, `serpstack`, `serper`, `serply`, `searchapi`, `duckduckgo`, `tavily`, `jina`, `bing`)
+- 选项:
+  - `searxng` - 使用 [SearXNG](https://github.com/searxng/searxng) 搜索引擎。
+  - `google_pse` - 使用 [Google 可编程搜索引擎](https://programmablesearchengine.google.com/about/)。
+  - `brave` - 使用 [Brave 搜索引擎](https://brave.com/search/api/)。
+  - `kagi` - 使用 [Kagi](https://www.kagi.com/) 搜索引擎。
+  - `mojeek` - 使用 [Mojeek](https://www.mojeek.com/) 搜索引擎。
+  - `serpstack` - 使用 [Serpstack](https://serpstack.com/) 搜索引擎。
+  - `serper` - 使用 [Serper](https://serper.dev/) 搜索引擎。
+  - `serply` - 使用 [Serply](https://serply.io/) 搜索引擎。
+  - `searchapi` - 使用 [SearchAPI](https://www.searchapi.io/) 搜索引擎。
+  - `duckduckgo` - 使用 [DuckDuckGo](https://duckduckgo.com/) 搜索引擎。
+  - `tavily` - 使用 [Tavily](https://tavily.com/) 搜索引擎。
+  - `jina` - 使用 [Jina](https://jina.ai/) 搜索引擎。
+  - `bing` - 使用 [Bing](https://www.bing.com/) 搜索引擎。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `SEARXNG_QUERY_URL`
 
-- Type: `str`
-- Description: The [SearXNG search API](https://docs.searxng.org/dev/search_api.html) URL supporting JSON output. `<query>` is replaced with
-the search query. Example: `http://searxng.local/search?q=<query>`
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 支持 JSON 输出的 [SearXNG 搜索 API](https://docs.searxng.org/dev/search_api.html) URL。`` 被替换为
+搜索查询。例如: `http://searxng.local/search?q=`
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `GOOGLE_PSE_API_KEY`
 
-- Type: `str`
-- Description: Sets the API key for the Google Programmable Search Engine (PSE) service.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Google 可编程搜索引擎（PSE）服务的 API 密钥。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `GOOGLE_PSE_ENGINE_ID`
 
-- Type: `str`
-- Description: The engine ID for the Google Programmable Search Engine (PSE) service.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: Google 可编程搜索引擎（PSE）服务的引擎 ID。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `BRAVE_SEARCH_API_KEY`
 
-- Type: `str`
-- Description: Sets the API key for the Brave Search API.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Brave 搜索 API 的 API 密钥。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `KAGI_SEARCH_API_KEY`
 
-- Type: `str`
-- Description: Sets the API key for Kagi Search API.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Kagi 搜索 API 的 API 密钥。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `MOJEEK_SEARCH_API_KEY`
 
-- Type: `str`
-- Description: Sets the API key for Mojeek Search API.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Mojeek 搜索 API 的 API 密钥。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `SERPSTACK_API_KEY`
 
-- Type: `str`
-- Description: Sets the API key for Serpstack search API.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Serpstack 搜索 API 的 API 密钥。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `SERPSTACK_HTTPS`
 
-- Type: `bool`
-- Default: `True`
-- Description: Configures the use of HTTPS for Serpstack requests. Free tier requests are restricted to HTTP only.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 配置 Serpstack 请求的 HTTPS 使用。免费层请求仅限于 HTTP。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `SERPER_API_KEY`
 
-- Type: `str`
-- Description: Sets the API key for Serper search API.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Serper 搜索 API 的 API 密钥。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `SERPLY_API_KEY`
 
-- Type: `str`
-- Description: Sets the API key for Serply search API.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Serply 搜索 API 的 API 密钥。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `SEARCHAPI_API_KEY`
 
-- Type: `str`
-- Description: Sets the API key for SearchAPI.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 SearchAPI 的 API 密钥。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `SEARCHAPI_ENGINE`
 
-- Type: `str`
-- Description: Sets the SearchAPI engine.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 SearchAPI 引擎。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `TAVILY_API_KEY`
 
-- Type: `str`
-- Description: Sets the API key for Tavily search API.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Tavily 搜索 API 的 API 密钥。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `JINA_API_KEY`
 
-- Type: `str`
-- Description: Sets the API key for Jina.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Jina 的 API 密钥。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `BING_SEARCH_V7_ENDPOINT`
 
-- Type: `str`
-- Description: Sets the endpoint for Bing Search API.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Bing 搜索 API 的端点。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `BING_SEARCH_V7_SUBSCRIPTION_KEY`
 
-- Type: `str`
-- Default: `https://api.bing.microsoft.com/v7.0/search`
-- Description: Sets the subscription key for Bing Search API.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `https://api.bing.microsoft.com/v7.0/search`
+- 描述: 设置 Bing 搜索 API 的订阅密钥。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
-### YouTube Loader
+### YouTube 加载器
 
 #### `YOUTUBE_LOADER_PROXY_URL`
 
-- Type: `str`
-- Description: Sets the proxy URL for YouTube loader.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 YouTube 加载器的代理 URL。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `YOUTUBE_LOADER_LANGUAGE`
 
-- Type: `str`
-- Default: `en`
-- Description: Sets the language to use for YouTube video loading.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `en`
+- 描述: 设置 YouTube 视频加载的语言。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
-## Audio
+## 音频
 
-### Whisper Speech-to-Text (Local)
+### Whisper 语音转文本（本地）
 
 #### `WHISPER_MODEL`
 
-- Type: `str`
-- Default: `base`
-- Description: Sets the Whisper model to use for Speech-to-Text. The backend used is faster_whisper with quantization to `int8`.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `base`
+- 描述: 设置用于语音转文本的 Whisper 模型。使用的是 faster_whisper 后端，量化为 `int8`。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `WHISPER_MODEL_DIR`
 
-- Type: `str`
-- Default: `${DATA_DIR}/cache/whisper/models`
-- Description: Specifies the directory to store Whisper model files.
+- 类型: `str`
+- 默认值: `${DATA_DIR}/cache/whisper/models`
+- 描述: 指定存储 Whisper 模型文件的目录。
 
-### Speech-to-Text (OpenAI)
+### 语音转文本（OpenAI）
 
 #### `AUDIO_STT_ENGINE`
 
-- Type: `str` (enum: `openai`)
-- Options:
-  - Leave empty to use local Whisper engine for Speech-to-Text.
-  - `openai` - Uses OpenAI engine for Speech-to-Text.
-- Description: Specifies the Speech-to-Text engine to use.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str` (枚举: `openai`)
+- 选项:
+  - 留空使用本地 Whisper 引擎进行语音转文本。
+  - `openai` - 使用 OpenAI 引擎进行语音转文本。
+- 描述: 指定要使用的语音转文本引擎。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `AUDIO_STT_MODEL`
 
-- Type: `str`
-- Default: `whisper-1`
-- Description: Specifies the Speech-to-Text model to use for OpenAI-compatible endpoints.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `whisper-1`
+- 描述: 指定用于 OpenAI 兼容端点的语音转文本模型。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `AUDIO_STT_OPENAI_API_BASE_URL`
 
-- Type: `str`
-- Default: `${OPENAI_API_BASE_URL}`
-- Description: Sets the OpenAI-compatible base URL to use for Speech-to-Text.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `${OPENAI_API_BASE_URL}`
+- 描述: 设置用于语音转文本的 OpenAI 兼容基础 URL。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `AUDIO_STT_OPENAI_API_KEY`
 
-- Type: `str`
-- Default: `${OPENAI_API_KEY}`
-- Description: Sets the OpenAI API key to use for Speech-to-Text.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `${OPENAI_API_KEY}`
+- 描述: 设置用于语音转文本的 OpenAI API 密钥。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
-### Text-to-Speech
+### 文本转语音
 
 #### `AUDIO_TTS_API_KEY`
 
-- Type: `str`
-- Description: Sets the API key for Text-to-Speech.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置文本转语音的 API 密钥。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `AUDIO_TTS_ENGINE`
 
-- Type: `str` (enum: `azure`, `elevenlabs`, `openai`, `transformers`)
-- Options:
-  - Leave empty to use built-in WebAPI engine for Text-to-Speech.
-  - `azure` - Uses Azure engine for Text-to-Speech.
-  - `elevenlabs` - Uses ElevenLabs engine for Text-to-Speech
-  - `openai` - Uses OpenAI engine for Text-to-Speech.
-  - `transformers` - Uses SentenceTransformers for Text-to-Speech.
-- Description: Specifies the Text-to-Speech engine to use.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str` (枚举: `azure`, `elevenlabs`, `openai`, `transformers`)
+- 选项:
+  - 留空使用内置 WebAPI 引擎进行文本转语音。
+  - `azure` - 使用 Azure 引擎进行文本转语音。
+  - `elevenlabs` - 使用 ElevenLabs 引擎进行文本转语音。
+  - `openai` - 使用 OpenAI 引擎进行文本转语音。
+  - `transformers` - 使用 SentenceTransformers 进行文本转语音。
+- 描述: 指定要使用的文本转语音引擎。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `AUDIO_TTS_MODEL`
 
-- Type: `str`
-- Default: `tts-1`
-- Description: Specifies the OpenAI text-to-speech model to use.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `tts-1`
+- 描述: 指定要使用的 OpenAI 文本转语音模型。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
-### Azure Text-to-Speech
+### Azure 文本转语音
 
 #### `AUDIO_TTS_AZURE_SPEECH_OUTPUT_FORMAT`
 
-- Type: `str`
-- Description: Sets the output format for Azure Text to Speech.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Azure 文本转语音的输出格式。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `AUDIO_TTS_AZURE_SPEECH_REGION`
 
-- Type: `str`
-- Description: Sets the region for Azure Text to Speech.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Azure 文本转语音的区域。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
-### OpenAI Text-to-Speech
+### OpenAI 文本转语音
 
 #### `AUDIO_TTS_OPENAI_API_BASE_URL`
 
-- Type: `str`
-- Default: `${OPENAI_API_BASE_URL}`
-- Description: Sets the OpenAI-compatible base URL to use for text-to-speech.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `${OPENAI_API_BASE_URL}`
+- 描述: 设置用于文本转语音的 OpenAI 兼容基础 URL。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `AUDIO_TTS_OPENAI_API_KEY`
 
-- Type: `str`
-- Default: `${OPENAI_API_KEY}`
-- Description: Sets the API key to use for text-to-speech.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `${OPENAI_API_KEY}`
+- 描述: 设置用于文本转语音的 API 密钥。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `AUDIO_TTS_SPLIT_ON`
 
-- Type: `str`
-- Default: `punctuation`
-- Description: Sets the OpenAI text-to-speech split on to use.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `punctuation`
+- 描述: 设置 OpenAI 文本转语音的分隔方式。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `AUDIO_TTS_VOICE`
 
-- Type: `str`
-- Default: `alloy`
-- Description: Sets the OpenAI text-to-speech voice to use.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `alloy`
+- 描述: 设置 OpenAI 文本转语音的声音。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
-## Image Generation
+## 图片生成
 
 #### `ENABLE_IMAGE_GENERATION`
 
-- Type: `bool`
-- Default: `False`
-- Description: Enables or disables image generation features.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 启用或禁用图像生成功能。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `IMAGE_GENERATION_ENGINE`
 
-- Type: `str` (enum: `openai`, `comfyui`, `automatic1111`)
-- Options:
-  - `openai` - Uses OpenAI DALL-E for image generation.
-  - `comfyui` - Uses ComfyUI engine for image generation.
-  - `automatic1111` - Uses Automatic1111 engine for image generation (default).
-- Default: `openai`
-- Description: Specifies the engine to use for image generation.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str` (枚举: `openai`, `comfyui`, `automatic1111`)
+- 选项:
+  - `openai` - 使用 OpenAI DALL-E 进行图像生成。
+  - `comfyui` - 使用 ComfyUI 引擎进行图像生成。
+  - `automatic1111` - 使用 Automatic1111 引擎进行图像生成（默认）。
+- 默认值: `openai`
+- 描述: 指定用于图像生成的引擎。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `IMAGE_GENERATION_MODEL`
 
-- Type: `str`
-- Description: Default model to use for image generation
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 默认用于图像生成的模型
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `IMAGE_SIZE`
 
-- Type: `str`
-- Default: `512x512`
-- Description: Sets the default image size to generate.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `512x512`
+- 描述: 设置要生成的默认图像大小。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `IMAGE_STEPS`
 
-- Type: `int`
-- Default: `50`
-- Description: Sets the default iteration steps for image generation. Used for ComfyUI and AUTOMATIC1111.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `int`
+- 默认值: `50`
+- 描述: 设置图像生成的默认迭代步骤。用于 ComfyUI 和 AUTOMATIC1111。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 ### AUTOMATIC1111
 
 #### `AUTOMATIC1111_API_AUTH`
 
-- Type: `str`
-- Description: Sets the Automatic1111 API authentication.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Automatic1111 API 认证。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `AUTOMATIC1111_BASE_URL`
 
-- Type: `str`
-- Description: Specifies the URL to Automatic1111's Stable Diffusion API.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 指定 Automatic1111 的稳定扩散 API 的 URL。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `AUTOMATIC1111_CFG_SCALE`
 
-- Type: `float`
-- Description: Sets the scale for Automatic1111 inference.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `float`
+- 描述: 设置 Automatic1111 推理的比例。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `AUTOMATIC1111_SAMPLER`
 
-- Type: `str`
-- Description: Sets the sampler for Automatic1111 inference.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Automatic1111 推理的采样器。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `AUTOMATIC1111_SCHEDULER`
 
-- Type: `str`
-- Description: Sets the scheduler for Automatic1111 inference.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Automatic1111 推理的调度器。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 ### ComfyUI
 
 #### `COMFYUI_BASE_URL`
 
-- Type: `str`
-- Description: Specifies the URL to the ComfyUI image generation API.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 指定 ComfyUI 图像生成 API 的 URL。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `COMFYUI_API_KEY`
 
-- Type: `str`
-- Description: Sets the API key for ComfyUI.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 ComfyUI 的 API 密钥。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `COMFYUI_WORKFLOW`
 
-- Type: `str`
-- Default:
+- 类型: `str`
+- 默认值:
 
 ```
 {
@@ -1554,474 +1532,472 @@ the search query. Example: `http://searxng.local/search?q=<query>`
 }
 ```
 
-- Description: Sets the ComfyUI workflow.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 描述: 设置 ComfyUI 工作流。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 ### OpenAI DALL-E
 
 #### `IMAGES_OPENAI_API_BASE_URL`
 
-- Type: `str`
-- Default: `${OPENAI_API_BASE_URL}`
-- Description: Sets the OpenAI-compatible base URL to use for DALL-E image generation.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `${OPENAI_API_BASE_URL}`
+- 描述: 设置用于 DALL-E 图像生成的 OpenAI 兼容基础 URL。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `IMAGES_OPENAI_API_KEY`
 
-- Type: `str`
-- Default: `${OPENAI_API_KEY}`
-- Description: Sets the API key to use for DALL-E image generation.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `${OPENAI_API_KEY}`
+- 描述: 设置用于 DALL-E 图像生成的 API 密钥。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 ## OAuth
 
 #### `ENABLE_OAUTH_SIGNUP`
 
-- Type: `bool`
-- Default: `False`
-- Description: Enables account creation when sighting up via OAuth. Distinct from `ENABLE_SIGNUP`.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 启用通过 OAuth 注册时的账户创建。与 `ENABLE_SIGNUP` 不同。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 :::danger
 
-`ENABLE_LOGIN_FORM` must be set to `False` when `ENABLE_OAUTH_SIGNUP` is set to `True`. Failure to do so will result in the inability to login.
+`ENABLE_OAUTH_SIGNUP` 设置为 `True` 时，必须将 `ENABLE_LOGIN_FORM` 设置为 `False`。否则将无法登录。
 
 :::
 
 #### `ENABLE_API_KEY`
 
-- Type: `bool`
-- Default: `True`
-- Description: Enables API key authentication.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 启用 API 密钥身份验证。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `ENABLE_OAUTH_ROLE_MANAGEMENT`
 
-- Type: `bool`
-- Default: `False`
-- Description: Enables role management to oauth delegation.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 启用角色管理以进行 oauth 授权。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `ENABLE_OAUTH_GROUP_MANAGEMENT`
 
-- Type: `bool`
-- Default: `False`
-- Description: Enables or disables OAUTH group management.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 启用或禁用 OAUTH 组管理。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `OAUTH_MERGE_ACCOUNTS_BY_EMAIL`
 
-- Type: `bool`
-- Default: `False`
-- Description: If enabled, merges OAuth accounts with existing accounts using the same email
-address. This is considered unsafe as not all OAuth providers will verify email addresses and can lead to
-potential account takeovers.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 如果启用，通过电子邮件地址将 OAuth 账户与现有账户合并。这被视为不安全，因为不是所有 OAuth 提供商都会验证电子邮件地址，并可能导致
+潜在的账户接管。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `OAUTH_USERNAME_CLAIM`
 
-- Type: `str`
-- Default: `name`
-- Description: Set username claim for OpenID.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `name`
+- 描述: 设置 OpenID 的用户名声明。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `OAUTH_EMAIL_CLAIM`
 
-- Type: `str`
-- Default: `email`
-- Description: Set email claim for OpenID.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `email`
+- 描述: 设置 OpenID 的电子邮件声明。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `OAUTH_PICTURE_CLAIM`
 
-- Type: `str`
-- Default: `picture`
-- Description: Set picture (avatar) claim for OpenID.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `picture`
+- 描述: 设置 OpenID 的图片（头像）声明。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `OAUTH_GROUP_CLAIM`
 
-- Type: `str`
-- Default: `groups`
-- Description: Specifies the group claim for OAUTH authentication.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `groups`
+- 描述: 指定 OAUTH 认证的组声明。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `OAUTH_ROLES_CLAIM`
 
-- Type: `str`
-- Default: `roles`
-- Description: Sets the roles claim to look for in the OIDC token.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `roles`
+- 描述: 设置在 OIDC 令牌中查找的角色声明。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `OAUTH_SCOPES`
 
-- Type: `str`
-- Default: `openid email profile`
-- Description: Sets the scope for OIDC authentication. `openid` and `email` are required.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `openid email profile`
+- 描述: 设置 OIDC 认证的范围。`openid` 和 `email` 是必需的。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `OAUTH_ALLOWED_DOMAINS`
 
-- Type: `str`
-- Default: `*`
-- Description: Specifies the allowed domains for OAUTH authentication. (e.g. "example1.com,example2.com").
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `*`
+- 描述: 指定 OAUTH 认证的允许域。（例如 "example1.com,example2.com"）。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `OAUTH_ALLOWED_ROLES`
 
-- Type: `str`
-- Default: `user,admin`
-- Description: Sets the roles that are allowed access to the platform.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `user,admin`
+- 描述: 设置允许访问平台的角色。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `OAUTH_ADMIN_ROLES`
 
-- Type: `str`
-- Default: `admin`
-- Description: Sets the roles that are considered administrators.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `admin`
+- 描述: 设置被视为管理员的角色。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `WEBUI_AUTH_TRUSTED_EMAIL_HEADER`
 
-- Type: `str`
-- Description: Defines the trusted request header for authentication. See [SSO docs](/features/sso).
+- 类型: `str`
+- 描述: 定义用于身份验证的受信请求标头。请参阅 [SSO 文档](/features/sso)。
 
 #### `WEBUI_AUTH_TRUSTED_NAME_HEADER`
 
-- Type: `str`
-- Description: Defines the trusted request header for the username of anyone registering with the
-`WEBUI_AUTH_TRUSTED_EMAIL_HEADER` header. See [SSO docs](/features/sso).
+- 类型: `str`
+- 描述: 定义用于注册时使用 `WEBUI_AUTH_TRUSTED_EMAIL_HEADER` 标头的用户名的受信请求标头。请参阅 [SSO 文档](/features/sso)。
 
 ### Google
 
-See https://support.google.com/cloud/answer/6158849?hl=en
+请参阅 https://support.google.com/cloud/answer/6158849?hl=zh-cn
 
 #### `GOOGLE_CLIENT_ID`
 
-- Type: `str`
-- Description: Sets the client ID for Google OAuth
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Google OAuth 的客户端 ID
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `GOOGLE_CLIENT_SECRET`
 
-- Type: `str`
-- Description: Sets the client secret for Google OAuth
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Google OAuth 的客户端秘密
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `GOOGLE_OAUTH_SCOPE`
 
-- Type: `str`
-- Default: `openid email profile`
-- Description: Sets the scope for Google OAuth authentication.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `openid email profile`
+- 描述: 设置 Google OAuth 认证的范围。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `GOOGLE_REDIRECT_URI`
 
-- Type: `str`
-- Default: `<backend>/oauth/google/callback`
-- Description: Sets the redirect URI for Google OAuth
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `/oauth/google/callback`
+- 描述: 设置 Google OAuth 的重定向 URI
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 ### Microsoft
 
-See https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app
+请参阅 https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app
 
 #### `MICROSOFT_CLIENT_ID`
 
-- Type: `str`
-- Description: Sets the client ID for Microsoft OAuth
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Microsoft OAuth 的客户端 ID
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `MICROSOFT_CLIENT_SECRET`
 
-- Type: `str`
-- Description: Sets the client secret for Microsoft OAuth
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Microsoft OAuth 的客户端秘密
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `MICROSOFT_CLIENT_TENANT_ID`
 
-- Type: `str`
-- Description: Sets the tenant ID for Microsoft OAuth
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 Microsoft OAuth 的租户 ID
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `MICROSOFT_OAUTH_SCOPE`
 
-- Type: `str`
-- Default: `openid email profile`
-- Description: Sets the scope for Microsoft OAuth authentication.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `openid email profile`
+- 描述: 设置 Microsoft OAuth 认证的范围。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `MICROSOFT_REDIRECT_URI`
 
-- Type: `str`
-- Default: `<backend>/oauth/microsoft/callback`
-- Description: Sets the redirect URI for Microsoft OAuth
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `/oauth/microsoft/callback`
+- 描述: 设置 Microsoft OAuth 的重定向 URI
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 ### OpenID (OIDC)
 
 #### `OAUTH_CLIENT_ID`
 
-- Type: `str`
-- Description: Sets the client ID for OIDC
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 OIDC 的客户端 ID
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `OAUTH_CLIENT_SECRET`
 
-- Type: `str`
-- Description: Sets the client secret for OIDC
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 OIDC 的客户端秘密
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `OPENID_PROVIDER_URL`
 
-- Type: `str`
-- Description: Path to the `.well-known/openid-configuration` endpoint
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: `.well-known/openid-configuration` 端点的路径
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `OAUTH_PROVIDER_NAME`
 
-- Type: `str`
-- Default: `SSO`
-- Description: Sets the name for the OIDC provider.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `SSO`
+- 描述: 设置 OIDC 提供者的名称。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `OPENID_REDIRECT_URI`
 
-- Type: `str`
-- Default: `<backend>/oauth/oidc/callback`
-- Description: Sets the redirect URI for OIDC
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `/oauth/oidc/callback`
+- 描述: 设置 OIDC 的重定向 URI
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 ## LDAP
 
-#### `ENABLE_LDAP`
+#### `ENABLE_LDAP
 
-- Type: `bool`
-- Default: `False`
-- Description: Enables or disables LDAP authentication.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 启用或禁用 LDAP 身份验证。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `LDAP_APP_DN`
 
-- Type: `str`
-- Description: Sets the distinguished name for LDAP application.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 LDAP 应用程序的专有名称。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `LDAP_APP_PASSWORD`
 
-- Type: `str`
-- Description: Sets the password for LDAP application.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 LDAP 应用程序的密码。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `LDAP_ATTRIBUTE_FOR_USERNAME`
 
-- Type: `str`
-- Description: Sets the attribute to use as username for LDAP authentication.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置用于 LDAP 身份验证的用户名属性。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `LDAP_CA_CERT_FILE`
 
-- Type: `str`
-- Description: Sets the path to LDAP CA certificate file.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 LDAP CA 证书文件的路径。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `LDAP_CIPHERS`
 
-- Type: `str`
-- Default: `ALL`
-- Description: Sets the ciphers to use for LDAP connection.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `ALL`
+- 描述: 设置用于 LDAP 连接的加密套件。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `LDAP_SEARCH_BASE`
 
-- Type: `str`
-- Description: Sets the base to search for LDAP authentication.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置用于 LDAP 身份验证的搜索基础。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `LDAP_SEARCH_FILTERS`
 
-- Type: `str`
-- Description: Sets the filter to use for LDAP search.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置用于 LDAP 搜索的过滤器。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `LDAP_SERVER_HOST`
 
-- Type: `str`
-- Default: `localhost`
-- Description: Sets the hostname of LDAP server.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 默认值: `localhost`
+- 描述: 设置 LDAP 服务器的主机名。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `LDAP_SERVER_LABEL`
 
-- Type: `str`
-- Description: Sets the label of LDAP server.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `str`
+- 描述: 设置 LDAP 服务器的标签。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `LDAP_SERVER_PORT`
 
-- Type: `int`
-- Default: `389`
-- Description: Sets the port number of LDAP server.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `int`
+- 默认值: `389`
+- 描述: 设置 LDAP 服务器的端口号。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `LDAP_USE_TLS`
 
-- Type: `bool`
-- Default: `True`
-- Description: Enables or disables TLS for LDAP connection.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 启用或禁用 LDAP 连接的 TLS。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
-## Workspace Permissions
+## 工作区权限
 
 #### `USER_PERMISSIONS_WORKSPACE_MODELS_ACCESS`
 
-- Type: `bool`
-- Default: `False`
-- Description: Enables or disables user permission to access workspace models.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 启用或禁用用户访问工作区模型的权限。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `USER_PERMISSIONS_WORKSPACE_KNOWLEDGE_ACCESS`
 
-- Type: `bool`
-- Default: `False`
-- Description: Enables or disables user permission to access workspace knowledge.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 启用或禁用用户访问工作区知识的权限。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `USER_PERMISSIONS_WORKSPACE_PROMPTS_ACCESS`
 
-- Type: `bool`
-- Default: `False`
-- Description: Enables or disables user permission to access workspace prompts.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 启用或禁用用户访问工作区提示的权限。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `USER_PERMISSIONS_WORKSPACE_TOOLS_ACCESS`
 
-- Type: `bool`
-- Default: `False`
-- Description: Enables or disables user permission to access workspace tools.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 启用或禁用用户访问工作区工具的权限。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
-## Chat Permissions
+## 聊天权限
 
 #### `USER_PERMISSIONS_CHAT_FILE_UPLOAD`
 
-- Type: `bool`
-- Default: `True`
-- Description: Enables or disables user permission to upload files to chats.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 启用或禁用用户上传文件到聊天的权限。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `USER_PERMISSIONS_CHAT_DELETE`
 
-- Type: `bool`
-- Default: `True`
-- Description: Enables or disables user permission to delete chats.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 启用或禁用用户删除聊天的权限。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `USER_PERMISSIONS_CHAT_EDIT`
 
-- Type: `bool`
-- Default: `True`
-- Description: Enables or disables user permission to edit chats.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 启用或禁用用户编辑聊天的权限。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
 #### `USER_PERMISSIONS_CHAT_TEMPORARY`
 
-- Type: `bool`
-- Default: `True`
-- Description: Enables or disables user permission to create temporary chats.
-- Persistence: This environment variable is a `PersistentConfig` variable.
+- 类型: `bool`
+- 默认值: `True`
+- 描述: 启用或禁用用户创建临时聊天的权限。
+- 持久性: 此环境变量是一个 `PersistentConfig` 变量。
 
-## Misc Environment Variables
+## 杂项环境变量
 
-These variables are not specific to Open WebUI but can still be valuable in certain contexts.
+这些变量并不限于 Open WebUI，但在某些情况下仍然有价值。
 
-### Amazon S3 Storage
+### Amazon S3 存储
 
 #### `STORAGE_PROVIDER`
 
-- Type: `str`
-- Default: empty string (' '), which defaults to `local`
-- Description: Sets the storage provider.
+- 类型: `str`
+- 默认值: 空字符串 (' ')，默认为 `local`
+- 描述: 设置存储提供商。
 
 #### `S3_ACCESS_KEY_ID`
 
-- Type: `str`
-- Description: Sets the access key ID for S3 storage.
+- 类型: `str`
+- 描述: 设置 S3 存储的访问密钥 ID。
 
 #### `S3_BUCKET_NAME`
 
-- Type: `str`
-- Description: Sets the bucket name for S3 storage.
+- 类型: `str`
+- 描述: 设置 S3 存储的桶名称。
 
 #### `S3_ENDPOINT_URL`
 
-- Type: `str`
-- Description: Sets the endpoint URL for S3 storage.
+- 类型: `str`
+- 描述: 设置 S3 存储的端点 URL。
 
 #### `S3_REGION_NAME`
 
-- Type: `str`
-- Description: Sets the region name for S3 storage.
+- 类型: `str`
+- 描述: 设置 S3 存储的区域名称。
 
 #### `S3_SECRET_ACCESS_KEY`
 
-- Type: `str`
-- Description: Sets the secret access key for S3 storage.
+- 类型: `str`
+- 描述: 设置 S3 存储的秘密访问密钥。
 
-### Database Pool
+### 数据库池
 
 #### `DATABASE_URL`
 
-- Type: `str`
-- Default: `sqlite:///${DATA_DIR}/webui.db`
-- Description: Specifies the database URL to connect to.
+- 类型: `str`
+- 默认值: `sqlite:///${DATA_DIR}/webui.db`
+- 描述: 指定要连接到的数据库 URL。
 
 :::info
 
-Supports SQLite and Postgres. Changing the URL does not migrate data between databases.
-Documentation on URL scheme available [here](https://docs.sqlalchemy.org/en/20/core/engines.html#database-urls).
+支持 SQLite 和 Postgres。更改 URL 不会在数据库之间迁移数据。
+有关 URL 方案的文档可在[此处](https://docs.sqlalchemy.org/en/20/core/engines.html#database-urls)找到。
 
 :::
 
 #### `DATABASE_POOL_SIZE`
 
-- Type: `int`
-- Default: `0`
-- Description: Specifies the size of the database pool. A value of `0` disables pooling.
+- 类型: `int`
+- 默认值: `0`
+- 描述: 指定数据库池的大小。值为 `0` 表示禁用池。
 
 #### `DATABASE_POOL_MAX_OVERFLOW`
 
-- Type: `int`
-- Default: `0`
-- Description: Specifies the database pool max overflow.
+- 类型: `int`
+- 默认值: `0`
+- 描述: 指定数据库池的最大溢出。
 
 :::info
 
-More information about this setting can be found [here](https://docs.sqlalchemy.org/en/20/core/pooling.html#sqlalchemy.pool.QueuePool.params.max_overflow).
+有关此设置的更多信息，请参阅[此处](https://docs.sqlalchemy.org/en/20/core/pooling.html#sqlalchemy.pool.QueuePool.params.max_overflow)。
 
 :::
 
 #### `DATABASE_POOL_TIMEOUT`
 
-- Type: `int`
-- Default: `30`
-- Description: Specifies the database pool timeout in seconds to get a connection.
+- 类型: `int`
+- 默认值: `30`
+- 描述: 指定获取连接的数据库池超时时间（以秒为单位）。
 
 :::info
 
-More information about this setting can be found [here](https://docs.sqlalchemy.org/en/20/core/pooling.html#sqlalchemy.pool.QueuePool.params.timeout).
+有关此设置的更多信息，请参阅[此处](https://docs.sqlalchemy.org/en/20/core/pooling.html#sqlalchemy.pool.QueuePool.params.timeout)。
 
 :::
 
 #### `DATABASE_POOL_RECYCLE`
 
-- Type: `int`
-- Default: `3600`
-- Description: Specifies the database pool recycle time in seconds.
+- 类型: `int`
+- 默认值: `3600`
+- 描述: 指定数据库池的回收时间（以秒为单位）。
 
 :::info
 
-More information about this setting can be found [here](https://docs.sqlalchemy.org/en/20/core/pooling.html#setting-pool-recycle).
+有关此设置的更多信息，请参阅[此处](https://docs.sqlalchemy.org/en/20/core/pooling.html#setting-pool-recycle)。
 
 :::
 
@@ -2029,40 +2005,38 @@ More information about this setting can be found [here](https://docs.sqlalchemy.
 
 #### `ENABLE_WEBSOCKET_SUPPORT`
 
-- Type: `bool`
-- Default: `False`
-- Description: Enables websocket support in Open WebUI (used with Redis).
+- 类型: `bool`
+- 默认值: `False`
+- 描述: 在 Open WebUI 中启用 websocket 支持（与 Redis 一起使用）。
 
 #### `WEBSOCKET_MANAGER`
 
-- Type: `str`
-- Default: `redis`
-- Description: Specifies the websocket manager to use (in this case, Redis).
+- 类型: `str`
+- 默认值: `redis`
+- 描述: 指定要使用的 websocket 管理器（在此情况下为 Redis）。
 
-#### `WEBSOCKET_REDIS_URL` (`REDIS_URL` exists for potential future use cases. In practice, it is recommended to set both.)
+#### `WEBSOCKET_REDIS_URL` (`REDIS_URL` 存在于潜在未来用例中。在实践中，建议同时设置。)
 
-- Type: `str`
-- Default: `redis://localhost:6379/0`
-- Description: Specifies the URL of the Redis instance for websocket communication.
+- 类型: `str`
+- 默认值: `redis://localhost:6379/0`
+- 描述: 指定用于 websocket 通信的 Redis 实例的 URL。
 
-### Proxy Settings
+### 代理设置
 
-Open WebUI supports using proxies for HTTP and HTTPS retrievals. To specify proxy settings,
-Open WebUI uses the following environment variables:
+Open WebUI 支持使用代理进行 HTTP 和 HTTPS 检索。要指定代理设置，
+Open WebUI 使用以下环境变量：
 
 #### `http_proxy`
 
-- Type: `str`
-- Description: Sets the URL for the HTTP proxy.
+- 类型: `str`
+- 描述: 设置 HTTP 代理的 URL。
 
 #### `https_proxy`
 
-- Type: `str`
-- Description: Sets the URL for the HTTPS proxy.
+- 类型: `str`
+- 描述: 设置 HTTPS 代理的 URL。
 
 #### `no_proxy`
 
-- Type: `str`
-- Description: Lists domain extensions (or IP addresses) for which the proxy should not be used,
-separated by commas. For example, setting no_proxy to '.mit.edu' ensures that the proxy is
-bypassed when accessing documents from MIT.
+- 类型: `str`
+- 描述: 列出不应使用代理的域扩展名（或 IP 地址），以逗号分隔。例如，将 no_proxy 设置为 '.mit.edu' 确保在访问来自 MIT 的文档时绕过代理。

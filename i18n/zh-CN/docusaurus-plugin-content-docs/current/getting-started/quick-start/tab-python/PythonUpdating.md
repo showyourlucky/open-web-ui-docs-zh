@@ -1,11 +1,16 @@
-# Updating with Python
+# 使用 Python 更新
 
-To update your locally installed **Open-WebUI** package to the latest version using `pip`, follow these simple steps:
+
+要使用 `pip` 将本地安装的 **Open-WebUI** 包更新到最新版本，请按照以下简单步骤操作：
+
 
 ```bash
 pip install -U open-webui
 ```
 
-The `-U` (or `--upgrade`) flag ensures that `pip` upgrades the package to the latest available version.
 
-That's it! Your **Open-WebUI** package is now updated and ready to use.
+`-U`（或 `--upgrade`）标志确保 `pip` 将包升级到最新可用版本。
+
+
+就是这样！您的 **Open-WebUI** 包现已更新完毕，可以正常使用了。
+

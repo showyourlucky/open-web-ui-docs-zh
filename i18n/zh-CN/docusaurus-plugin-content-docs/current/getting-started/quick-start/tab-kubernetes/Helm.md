@@ -1,34 +1,34 @@
 
-# Helm Setup for Kubernetes
+# 为 Kubernetes 设置 Helm
 
-Helm helps you manage Kubernetes applications.
+Helm 帮助你管理 Kubernetes 应用程序。
 
-## Prerequisites
+## 先决条件
 
-- Kubernetes cluster is set up.
-- Helm is installed.
+- 已设置 Kubernetes 集群。
+- 已安装 Helm。
 
-## Steps
+## 步骤
 
-1. **Add Open WebUI Helm Repository:**
+1. **添加 Open WebUI Helm 仓库：**
 
    ```bash
    helm repo add open-webui https://open-webui.github.io/helm-charts
    helm repo update
    ```
 
-2. **Install Open WebUI Chart:**
+2. **安装 Open WebUI 图表：**
 
    ```bash
    helm install openwebui open-webui/open-webui
    ```
 
-3. **Verify Installation:**
+3. **验证安装：**
 
    ```bash
    kubectl get pods
    ```
 
-## Access the WebUI
+## 访问 WebUI
 
-Set up port forwarding or load balancing to access Open WebUI from outside the cluster.
+设置端口转发或负载均衡，以便从集群外部访问 Open WebUI。

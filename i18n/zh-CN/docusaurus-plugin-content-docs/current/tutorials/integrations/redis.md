@@ -1,29 +1,29 @@
 ---
 sidebar_position: 30
-title: "🔗 Redis Websocket Support"
+title: "🔗 Redis WebSocket 支持"
 ---
 
 :::warning
-This tutorial is a community contribution and is not supported by the OpenWebUI team. It serves only as a demonstration on how to customize OpenWebUI for your specific use case. Want to contribute? Check out the contributing tutorial.
+此教程由社区贡献，未得到 OpenWebUI 团队的支持。它仅作为如何根据特定需求自定义 OpenWebUI 的示例。想要贡献？请查看贡献指南。
 :::
 
-# 🔗 Redis Websocket Support
+# 🔗 Redis WebSocket 支持
 
-## Overview
+## 概述
 
-This documentation page outlines the steps required to integrate Redis with Open WebUI for websocket support. By following these steps, you will be able to enable websocket functionality in your Open WebUI instance, allowing for real-time communication and updates between clients and your application.
+本文档页面概述了将 Redis 与 Open WebUI 集成以支持 WebSocket 所需的步骤。通过遵循这些步骤，您将能够为您的 Open WebUI 实例启用 WebSocket 功能，从而实现客户端与应用程序之间的实时通信和更新。
 
-### Prerequisites
+### 前提条件
 
-* A valid Open WebUI instance (running version 1.0 or higher)
-* A Redis container (we will use `docker.io/valkey/valkey:8.0.1-alpine` in this example, which is based on the latest Redis 7.x release)
-* Docker Composer (version 2.0 or higher) installed on your system
-* A Docker network for communication between Open WebUI and Redis
-* Basic understanding of Docker, Redis, and Open WebUI
+* 一个有效的 Open WebUI 实例（运行版本 1.0 或更高）
+* 一个 Redis 容器（在本例中我们将使用 `docker.io/valkey/valkey:8.0.1-alpine`，基于最新的 Redis 7.x 版本）
+* 系统上安装了 Docker Compose（2.0 或更高版本）
+* 用于 Open WebUI 和 Redis 之间通信的 Docker 网络
+* 对 Docker、Redis 和 Open WebUI 的基本了解
 
-## Setting up Redis
+## 设置 Redis
 
-To set up Redis for websocket support, you will need to create a `docker-compose.yml` file with the following contents:
+要为 WebSocket 支持设置 Redis，您需要创建一个包含以下内容的 `docker-compose.yml` 文件：
 
 ```yml
 version: '3.9'
@@ -54,32 +54,36 @@ services:
         max-file: "1"
     networks:
       - openwebui-network
+```
+
 
 volumes:
   redis-data:
+```
+
 
 networks:
   openwebui-network:
     external: true
 ```
 
-:::info Notes
+:::info 注意事项
 
-The `ports` directive is not included in this configuration, as it is not necessary in most cases. The Redis service will still be accessible from within the Docker network by the Open WebUI service. However, if you need to access the Redis instance from outside the Docker network (e.g., for debugging or monitoring purposes), you can add the `ports` directive to expose the Redis port (e.g., `6379:6379`).
+在此配置中未包含 `ports` 指令，因为在大多数情况下并不必要。Redis 服务仍可通过 Docker 网络被 Open WebUI 服务访问。然而，如果您需要从 Docker 网络外部访问 Redis 实例（例如，为了调试或监控），可以添加 `ports` 指令来暴露 Redis 端口（例如，`6379:6379`）。
 
-The above configuration sets up a Redis container named `redis-valkey` and mounts a volume for data persistence. The `healthcheck` directive ensures that the container is restarted if it fails to respond to the `ping` command. The `--save 30 1` command option saves the Redis database to disk every 30 minutes if at least 1 key has changed.
+上述配置设置了一个名为 `redis-valkey` 的 Redis 容器，并挂载了一个卷以确保数据持久化。`healthcheck` 指令确保如果容器未能响应 `ping` 命令，则会重启。`--save 30 1` 命令选项会在至少有一个键发生变化时，每 30 分钟将 Redis 数据库保存到磁盘。
 
 :::
 
-To create a Docker network for communication between Open WebUI and Redis, run the following command:
+要创建一个用于 Open WebUI 和 Redis 之间通信的 Docker 网络，请运行以下命令：
 
 ```bash
 docker network create openwebui-network
 ```
 
-## Configuring Open WebUI
+## 配置 Open WebUI
 
-To enable websocket support in Open WebUI, you will need to set the following environment variables for your Open WebUI instance:
+要在 Open WebUI 中启用 WebSocket 支持，您需要为您的 Open WebUI 实例设置以下环境变量：
 
 ```bash
 ENABLE_WEBSOCKET_SUPPORT="true"
@@ -87,9 +91,9 @@ WEBSOCKET_MANAGER="redis"
 WEBSOCKET_REDIS_URL="redis://redis:6379/1"
 ```
 
-These environment variables enable websocket support, specify Redis as the websocket manager, and define the Redis URL. Make sure to replace the `WEBSOCKET_REDIS_URL` value with the actual IP address of your Redis instance.
+这些环境变量启用了 WebSocket 支持，指定了 Redis 作为 WebSocket 管理器，并定义了 Redis URL。请确保用实际的 Redis 实例 IP 地址替换 `WEBSOCKET_REDIS_URL` 的值。
 
-When running Open WebUI using Docker, you need to connect it to the same Docker network:
+当使用 Docker 运行 Open WebUI 时，您需要将其连接到相同的 Docker 网络：
 
 ```bash
 docker run -d \
@@ -102,32 +106,32 @@ docker run -d \
   ghcr.io/open-webui/open-webui:main
 ```
 
-Replace `127.0.0.1` with the actual IP address of your Redis container in the Docker network.
+请将 `127.0.0.1` 替换为 Docker 网络中 Redis 容器的实际 IP 地址。
 
-## Verification
+## 验证
 
-If you have properly set up Redis and configured Open WebUI, you should see the following log message when starting your Open WebUI instance:
+如果您正确设置了 Redis 并配置了 Open WebUI，在启动 Open WebUI 实例时应看到以下日志消息：
 
 `DEBUG:open_webui.socket.main:Using Redis to manage websockets.`
 
-This confirms that Open WebUI is using Redis for websocket management. You can also use the `docker exec` command to verify that the Redis instance is running and accepting connections:
+这确认了 Open WebUI 正在使用 Redis 进行 WebSocket 管理。您也可以使用 `docker exec` 命令验证 Redis 实例是否正在运行并接受连接：
 
 ```bash
 docker exec -it redis-valkey redis-cli -p 6379 ping
 ```
 
-This command should output `PONG` if the Redis instance is running correctly. If this command fails, you could try this command instead:
+该命令应输出 `PONG`，表示 Redis 实例正常运行。如果此命令失败，您可以尝试以下命令：
 
 ```bash
 docker exec -it redis-valkey valkey-cli -p 6379 ping
 ```
 
-## Troubleshooting
+## 故障排除
 
-If you encounter issues with Redis or websocket support in Open WebUI, you can refer to the following resources for troubleshooting:
+如果您在 Redis 或 Open WebUI 的 WebSocket 支持方面遇到问题，可以参考以下资源进行故障排除：
 
-* [Redis Documentation](https://redis.io/docs)
-* [Docker Compose Documentation](https://docs.docker.com/compose/overview/)
-* [sysctl Documentation](https://man7.org/linux/man-pages/man8/sysctl.8.html)
+* [Redis 文档](https://redis.io/docs)
+* [Docker Compose 文档](https://docs.docker.com/compose/overview/)
+* [sysctl 文档](https://man7.org/linux/man-pages/man8/sysctl.8.html)
 
-By following these steps and troubleshooting tips, you should be able to set up Redis with Open WebUI for websocket support and enable real-time communication and updates between clients and your application.
+通过遵循这些步骤和故障排除提示，您应该能够成功设置 Redis 与 Open WebUI 的集成，以支持 WebSocket，并实现实时通信和更新。

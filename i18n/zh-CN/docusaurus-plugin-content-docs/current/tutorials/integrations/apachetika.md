@@ -1,33 +1,33 @@
 ---
 sidebar_position: 4000
-title: "🪶 Apache Tika Extraction"
+title: "🪶 Apache Tika 提取"
 ---
 
 :::warning
-This tutorial is a community contribution and is not supported by the OpenWebUI team. It serves only as a demonstration on how to customize OpenWebUI for your specific use case. Want to contribute? Check out the contributing tutorial.
+本教程由社区贡献，未得到 OpenWebUI 团队的支持。它仅作为如何根据具体需求自定义 OpenWebUI 的示例。想要贡献？请查看贡献指南。
 :::
 
-## 🪶 Apache Tika Extraction
+## 🪶 Apache Tika 提取
 
-This documentation provides a step-by-step guide to integrating Apache Tika with Open WebUI. Apache Tika is a content analysis toolkit that can be used to detect and extract metadata and text content from over a thousand different file types. All of these file types can be parsed through a single interface, making Tika useful for search engine indexing, content analysis, translation, and much more.
+本文档提供了一步步将 Apache Tika 与 Open WebUI 集成的指南。Apache Tika 是一个内容分析工具包，可以用于检测和提取超过一千种不同文件类型的元数据和文本内容。所有这些文件类型都可以通过单一接口进行解析，使得 Tika 在搜索引擎索引、内容分析、翻译等方面非常有用。
 
-Prerequisites
+### 前提条件
 ------------
 
-* Open WebUI instance
-* Docker installed on your system
-* Docker network set up for Open WebUI
+* Open WebUI 实例
+* 系统中已安装 Docker
+* 已为 Open WebUI 设置 Docker 网络
 
-Integration Steps
+### 集成步骤
 ----------------
 
-### Step 1: Create a Docker Compose File or Run the Docker Command for Apache Tika
+#### 第一步：创建 Docker Compose 文件或运行 Apache Tika 的 Docker 命令
 
-You have two options to run Apache Tika:
+你有两种方式来运行 Apache Tika：
 
-**Option 1: Using Docker Compose**
+**选项一：使用 Docker Compose**
 
-Create a new file named `docker-compose.yml` in the same directory as your Open WebUI instance. Add the following configuration to the file:
+在同一目录下创建一个名为 `docker-compose.yml` 的新文件，并将以下配置添加到该文件中：
 
 ```yml
 services:
@@ -39,15 +39,15 @@ services:
     restart: unless-stopped
 ```
 
-Run the Docker Compose file using the following command:
+使用以下命令运行 Docker Compose 文件：
 
 ```bash
 docker-compose up -d
 ```
 
-**Option 2: Using Docker Run Command**
+**选项二：使用 Docker Run 命令**
 
-Alternatively, you can run Apache Tika using the following Docker command:
+或者，你可以使用以下 Docker 命令运行 Apache Tika：
 
 ```bash
 docker run -d --name tika \
@@ -56,131 +56,131 @@ docker run -d --name tika \
   apache/tika:latest-full
 ```
 
-Note that if you choose to use the Docker run command, you'll need to specify the `--network` flag if you want to run the container in the same network as your Open WebUI instance.
+请注意，如果你选择使用 Docker run 命令，则需要指定 `--network` 标志以确保容器在与 Open WebUI 实例相同的网络中运行。
 
-### Step 2: Configure Open WebUI to Use Apache Tika
+#### 第二步：配置 Open WebUI 使用 Apache Tika
 
-To use Apache Tika as the context extraction engine in Open WebUI, follow these steps:
+要在 Open WebUI 中使用 Apache Tika 作为上下文提取引擎，请按照以下步骤操作：
 
-* Log in to your Open WebUI instance.
-* Navigate to the `Admin Panel` settings menu.
-* Click on `Settings`.
-* Click on the `Documents` tab.
-* Change the `Default` content extraction engine dropdown to `Tika`.
-* Update the context extraction engine URL to `http://tika:9998`.
-* Save the changes.
+* 登录到你的 Open WebUI 实例。
+* 导航至 `Admin Panel` 设置菜单。
+* 点击 `Settings`。
+* 点击 `Documents` 标签。
+* 将 `Default` 内容提取引擎下拉菜单更改为 `Tika`。
+* 更新上下文提取引擎 URL 为 `http://tika:9998`。
+* 保存更改。
 
- Verifying Apache Tika in Docker
+### 验证 Docker 环境中的 Apache Tika
 =====================================
 
-To verify that Apache Tika is working correctly in a Docker environment, you can follow these steps:
+要验证 Apache Tika 是否在 Docker 环境中正常工作，可以按照以下步骤操作：
 
-### 1. Start the Apache Tika Docker Container
+#### 1. 启动 Apache Tika Docker 容器
 
-First, ensure that the Apache Tika Docker container is running. You can start it using the following command:
+首先，确保 Apache Tika Docker 容器正在运行。你可以使用以下命令启动它：
 
 ```bash
 docker run -p 9998:9998 apache/tika
 ```
 
-This command starts the Apache Tika container and maps port 9998 from the container to port 9998 on your local machine.
+此命令启动 Apache Tika 容器并将容器的 9998 端口映射到本地机器的 9998 端口。
 
-### 2. Verify the Server is Running
+#### 2. 验证服务器是否运行
 
-You can verify that the Apache Tika server is running by sending a GET request:
+你可以通过发送 GET 请求来验证 Apache Tika 服务器是否正常运行：
 
 ```bash
 curl -X GET http://localhost:9998/tika
 ```
 
-This command should return the following response:
+此命令应返回以下响应：
 
 ```
 This is Tika Server. Please PUT
 ```
 
-### 3. Verify the Integration
+#### 3. 验证集成
 
-Alternatively, you can also try sending a file for analysis to test the integration. You can test Apache Tika by sending a file for analysis using the `curl` command:
+你也可以尝试发送文件进行分析以测试集成。通过 `curl` 命令测试 Apache Tika：
 
 ```bash
 curl -T test.txt http://localhost:9998/tika
 ```
 
-Replace `test.txt` with the path to a text file on your local machine.
+将 `test.txt` 替换为你本地机器上的文本文件路径。
 
-Apache Tika will respond with the detected metadata and content type of the file.
+Apache Tika 将响应文件的检测元数据和内容类型。
 
-### Using a Script to Verify Apache Tika
+### 使用脚本验证 Apache Tika
 
-If you want to automate the verification process, this script sends a file to Apache Tika and checks the response for the expected metadata. If the metadata is present, the script will output a success message along with the file's metadata; otherwise, it will output an error message and the response from Apache Tika.
+如果你想自动化验证过程，这个脚本会将文件发送给 Apache Tika 并检查响应中的预期元数据。如果元数据存在，脚本将输出成功消息及文件的元数据；否则，将输出错误消息及来自 Apache Tika 的响应。
 
 ```python
 import requests
 
 def verify_tika(file_path, tika_url):
     try:
-        # Send the file to Apache Tika and verify the output
+        # 发送文件到 Apache Tika 并验证输出
         response = requests.put(tika_url, files={'file': open(file_path, 'rb')})
 
         if response.status_code == 200:
-            print("Apache Tika successfully analyzed the file.")
-            print("Response from Apache Tika:")
+            print("Apache Tika 成功分析了文件。")
+            print("来自 Apache Tika 的响应：")
             print(response.text)
         else:
-            print("Error analyzing the file:")
-            print(f"Status code: {response.status_code}")
-            print(f"Response from Apache Tika: {response.text}")
+            print("分析文件时出错：")
+            print(f"状态码: {response.status_code}")
+            print(f"来自 Apache Tika 的响应: {response.text}")
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"发生错误: {e}")
 
 if __name__ == "__main__":
-    file_path = "test.txt"  # Replace with the path to your file
+    file_path = "test.txt"  # 替换为你想发送给 Apache Tika 的文件路径
     tika_url = "http://localhost:9998/tika"
 
     verify_tika(file_path, tika_url)
 ```
 
-Instructions to run the script:
+### 运行脚本的说明
 
-### Prerequisites
+#### 前提条件
 
-* Python 3.x must be installed on your system
-* `requests` library must be installed (you can install it using pip: `pip install requests`)
-* Apache Tika Docker container must be running (use `docker run -p 9998:9998 apache/tika` command)
-* Replace `"test.txt"` with the path to the file you want to send to Apache Tika
+* 系统中必须安装 Python 3.x
+* 必须安装 `requests` 库（可以通过 pip 安装：`pip install requests`）
+* Apache Tika Docker 容器必须运行（使用 `docker run -p 9998:9998 apache/tika` 命令）
+* 将 `"test.txt"` 替换为你想发送给 Apache Tika 的文件路径
 
-### Running the Script
+#### 运行脚本
 
-1. Save the script as `verify_tika.py` (e.g., using a text editor like Notepad or Sublime Text)
-2. Open a terminal or command prompt
-3. Navigate to the directory where you saved the script (using the `cd` command)
-4. Run the script using the following command: `python verify_tika.py`
-5. The script will output a message indicating whether Apache Tika is working correctly
+1. 将脚本保存为 `verify_tika.py`（例如，使用文本编辑器如 Notepad 或 Sublime Text）
+2. 打开终端或命令提示符
+3. 导航到保存脚本的目录（使用 `cd` 命令）
+4. 使用以下命令运行脚本：`python verify_tika.py`
+5. 脚本将输出一条消息，指示 Apache Tika 是否正常工作
 
-Note: If you encounter any issues, ensure that the Apache Tika container is running correctly and that the file is being sent to the correct URL.
+注意：如果遇到任何问题，请确保 Apache Tika 容器正确运行且文件发送到了正确的 URL。
 
-### Conclusion
+### 结论
 
-By following these steps, you can verify that Apache Tika is working correctly in a Docker environment. You can test the setup by sending a file for analysis, verifying the server is running with a GET request, or use a script to automate the process. If you encounter any issues, ensure that the Apache Tika container is running correctly and that the file is being sent to the correct URL.
+通过遵循这些步骤，你可以验证 Apache Tika 是否在 Docker 环境中正常工作。你可以通过发送文件进行分析、使用 GET 请求验证服务器是否运行，或者使用脚本来自动化这一过程来进行测试。如果遇到任何问题，请确保 Apache Tika 容器正确运行且文件发送到了正确的 URL。
 
-Troubleshooting
+### 故障排除
 --------------
 
-* Make sure the Apache Tika service is running and accessible from the Open WebUI instance.
-* Check the Docker logs for any errors or issues related to the Apache Tika service.
-* Verify that the context extraction engine URL is correctly configured in Open WebUI.
+* 确保 Apache Tika 服务正在运行并可从 Open WebUI 实例访问。
+* 检查 Docker 日志中是否有与 Apache Tika 服务相关的错误或问题。
+* 验证 Open WebUI 中的上下文提取引擎 URL 是否正确配置。
 
-Benefits of Integration
+### 集成的好处
 ----------------------
 
-Integrating Apache Tika with Open WebUI provides several benefits, including:
+将 Apache Tika 与 Open WebUI 集成提供了多个好处，包括：
 
-* **Improved Metadata Extraction**: Apache Tika's advanced metadata extraction capabilities can help you extract accurate and relevant data from your files.
-* **Support for Multiple File Formats**: Apache Tika supports a wide range of file formats, making it an ideal solution for organizations that work with diverse file types.
-* **Enhanced Content Analysis**: Apache Tika's advanced content analysis capabilities can help you extract valuable insights from your files.
+* **改进的元数据提取**：Apache Tika 的高级元数据提取功能可以帮助你准确提取文件中的相关数据。
+* **支持多种文件格式**：Apache Tika 支持广泛的文件格式，是处理多样化文件类型的理想解决方案。
+* **增强的内容分析**：Apache Tika 的高级内容分析功能可以帮助你从文件中提取有价值的信息。
 
-Conclusion
+### 结论
 ----------
 
-Integrating Apache Tika with Open WebUI is a straightforward process that can improve the metadata extraction capabilities of your Open WebUI instance. By following the steps outlined in this documentation, you can easily set up Apache Tika as a context extraction engine for Open WebUI.
+将 Apache Tika 与 Open WebUI 集成是一个简单的过程，可以提升 Open WebUI 实例的元数据提取能力。通过遵循本文档中的步骤，你可以轻松设置 Apache Tika 作为 Open WebUI 的上下文提取引擎。

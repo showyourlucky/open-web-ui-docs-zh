@@ -1,24 +1,25 @@
 ---
 sidebar_position: 14
-title: "🛃 Setting up with Custom CA Store"
+title: "🛃 使用自定义 CA 存储进行设置"
 ---
 
+
 :::warning
-This tutorial is a community contribution and is not supported by the OpenWebUI team. It serves only as a demonstration on how to customize OpenWebUI for your specific use case. Want to contribute? Check out the contributing tutorial.
+此教程由社区贡献，不受到 OpenWebUI 团队的支持。它仅作为如何根据特定使用场景定制 OpenWebUI 的示例。想要贡献？请参阅贡献指南。
 :::
 
-If you get an `[SSL: CERTIFICATE_VERIFY_FAILED]` error when trying to run OI, most likely the issue is that you are on a network which intercepts HTTPS traffic (e.g. a corporate network).
+如果你在运行 OI 时遇到 `[SSL: CERTIFICATE_VERIFY_FAILED]` 错误，很可能是因为你所在的网络会拦截 HTTPS 流量（例如公司网络）。
 
-To fix this, you will need to add the new cert into OI's truststore.
+要解决这个问题，你需要将新的证书添加到 OI 的信任存储中。
 
-**For pre-built Docker image**:
+**对于预构建的 Docker 镜像**：
 
-1. Mount the certificiate store from your host machine into the container by passing `--volume=/etc/ssl/certs/ca-certificiate.crt:/etc/ssl/certs/ca-certificiates.crt:ro` as a command-line option to `docker run`
-2. Force python to use the system truststore by setting `REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt` (see https://docs.docker.com/reference/cli/docker/container/run/#env)
+1. 通过传递 `--volume=/etc/ssl/certs/ca-certificiate.crt:/etc/ssl/certs/ca-certificates.crt:ro` 参数给 `docker run` 命令，从主机挂载证书存储到容器中。
+2. 通过设置 `REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt` 强制 Python 使用系统信任存储（详见 [Docker 文档](https://docs.docker.com/reference/cli/docker/container/run/#env)）。
 
-If the environment variable `REQUESTS_CA_BUNDLE` does not work try to set `SSL_CERT_FILE` (as per the [httpx documentation](https://www.python-httpx.org/environment_variables/#ssl_cert_file)) instead with the same value.
+如果环境变量 `REQUESTS_CA_BUNDLE` 不起作用，可以尝试设置 `SSL_CERT_FILE`（参考 [httpx 文档](https://www.python-httpx.org/environment_variables/#ssl_cert_file)），并赋予相同的值。
 
-Example `compose.yaml` from [@KizzyCode](https://github.com/open-webui/open-webui/issues/1398#issuecomment-2258463210):
+这是 [@KizzyCode](https://github.com/open-webui/open-webui/issues/1398#issuecomment-2258463210) 提供的一个 `compose.yaml` 示例：
 
 ```yaml
 services:
@@ -39,13 +40,13 @@ services:
       - REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 ```
 
-The `ro` flag mounts the CA store as read-only and prevents accidental changes to your host CA store
-**For local development**:
+`ro` 标志将 CA 存储以只读方式挂载，防止意外修改主机上的 CA 存储。
+**对于本地开发**：
 
-You can also add the certificates in the build process by modifying the `Dockerfile`. This is useful if you want to make changes to the UI, for instance.
-Since the build happens in [multiple stages](https://docs.docker.com/build/building/multi-stage/), you have to add the cert into both
+你也可以在构建过程中通过修改 `Dockerfile` 添加证书。这对于想要对用户界面进行修改的情况非常有用。
+由于构建过程分为多个阶段（参见 [Docker 多阶段构建](https://docs.docker.com/build/building/multi-stage/)），你需要在每个阶段都添加证书。
 
-1. Frontend (`build` stage):
+1. 前端 (`build` 阶段)：
 
 ```dockerfile
 COPY package.json package-lock.json <YourRootCert>.crt ./
@@ -53,7 +54,7 @@ ENV NODE_EXTRA_CA_CERTS=/app/<YourRootCert>.crt
 RUN npm ci
 ```
 
-2. Backend (`base` stage):
+2. 后端 (`base` 阶段)：
 
 ```dockerfile
 COPY <CorporateSSL.crt> /usr/local/share/ca-certificates/

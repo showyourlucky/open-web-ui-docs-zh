@@ -1,32 +1,30 @@
 ---
 sidebar_position: 7
-title: "🗄️ Hosting UI and Models separately"
+title: "🗄️ 分别托管 UI 和模型"
 ---
 
 :::warning
-This tutorial is a community contribution and is not supported by the OpenWebUI team. It serves only as a demonstration on how to customize OpenWebUI for your specific use case. Want to contribute? Check out the contributing tutorial.
+此教程由社区贡献，并未得到 OpenWebUI 团队的支持。它仅作为如何根据特定需求自定义 OpenWebUI 的示例。想要贡献？请查看贡献教程。
 :::
 
 :::note
-If you plan to expose this to the wide area network, consider implementing security like a [network firewall](https://github.com/chr0mag/geoipsets), [web application firewall](https://github.com/owasp-modsecurity/ModSecurity), and [threat intelligence](https://github.com/crowdsecurity/crowdsec).
-Additionally, it's strongly recommended to enable HSTS possibly like `Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"` within your **HTTPS** configuration and a redirect of some kind to your **HTTPS URL** within your **HTTP** configuration. For free SSL certification, [Let's Encrypt](https://letsencrypt.org/) is a good option coupled with [Certbot](https://github.com/certbot/certbot) management.
+如果你计划将此服务暴露到广域网，请考虑实施安全措施，如 [网络防火墙](https://github.com/chr0mag/geoipsets)、[Web 应用防火墙](https://github.com/owasp-modsecurity/ModSecurity) 和 [威胁情报](https://github.com/crowdsecurity/crowdsec)。
+此外，强烈建议在你的 **HTTPS** 配置中启用 HSTS，例如 `Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"`，并在你的 **HTTP** 配置中设置某种重定向到你的 **HTTPS URL**。对于免费的 SSL 证书，[Let's Encrypt](https://letsencrypt.org/) 是一个不错的选择，并且可以结合 [Certbot](https://github.com/certbot/certbot) 进行管理。
 :::
 
-Sometimes, its beneficial to host Ollama, separate from the UI, but retain the RAG and RBAC support features shared across users:
+有时，将 Ollama 与 UI 分开托管是有益的，但仍保留跨用户共享的 RAG 和 RBAC 支持功能：
 
-## UI Configuration
+## UI 配置
 
-For the UI configuration, you can set up the Apache VirtualHost as follows:
+对于 UI 配置，你可以按如下方式设置 Apache VirtualHost：
 
-```
-# Assuming you have a website hosting this UI at "server.com"
+```bash
+# 假设你有一个网站托管此 UI 在 "server.com"
 <VirtualHost 192.168.1.100:80>
     ServerName server.com
     DocumentRoot /home/server/public_html
-
     ProxyPass / http://server.com:3000/ nocanon
     ProxyPassReverse / http://server.com:3000/
-
     RewriteEngine on
     RewriteCond %{HTTP:Upgrade} websocket [NC]
     RewriteCond %{HTTP:Connection} upgrade [NC]
@@ -34,90 +32,92 @@ For the UI configuration, you can set up the Apache VirtualHost as follows:
 </VirtualHost>
 ```
 
-Enable the site first before you can request SSL:
+在请求 SSL 之前，请先启用该站点：
 
 :::warning
-Use of the `nocanon` option may [affect the security of your backend](https://httpd.apache.org/docs/2.4/mod/mod_proxy.html#proxypass). It's recommended to enable this only if required by your configuration.
-_Normally, mod_proxy will canonicalise ProxyPassed URLs. But this may be incompatible with some backends, particularly those that make use of PATH_INFO. The optional nocanon keyword suppresses this and passes the URL path "raw" to the backend. Note that this keyword may affect the security of your backend, as it removes the normal limited protection against URL-based attacks provided by the proxy._
+使用 `nocanon` 选项可能会影响后端的安全性。只有在配置需要时才建议启用此选项。
+
+通常，mod_proxy 会规范 ProxyPassed URLs。但这可能会与某些后端不兼容，特别是那些使用 PATH_INFO 的后端。可选的 nocanon 关键字会抑制这种行为，并将 URL 路径“原始”传递给后端。请注意，此关键字可能会影响后端的安全性，因为它移除了代理提供的对基于 URL 攻击的有限保护。
 :::
 
-`a2ensite server.com.conf` # this will enable the site. a2ensite is short for "Apache 2 Enable Site"
-
+```bash
+a2ensite server.com.conf  # 这将启用站点。a2ensite 是 "Apache 2 Enable Site" 的缩写
 ```
-# For SSL
+
+```bash
+# 对于 SSL
 <VirtualHost 192.168.1.100:443>
     ServerName server.com
     DocumentRoot /home/server/public_html
-
     ProxyPass / http://server.com:3000/ nocanon
     ProxyPassReverse / http://server.com:3000/
-
     RewriteEngine on
     RewriteCond %{HTTP:Upgrade} websocket [NC]
     RewriteCond %{HTTP:Connection} upgrade [NC]
     RewriteRule ^/?(.*) "ws://server.com:3000/$1" [P,L]
-
     SSLEngine on
     SSLCertificateFile /etc/ssl/virtualmin/170514456861234/ssl.cert
     SSLCertificateKeyFile /etc/ssl/virtualmin/170514456861234/ssl.key
     SSLProtocol all -SSLv2 -SSLv3 -TLSv1 -TLSv1.1
-
     SSLProxyEngine on
     SSLCACertificateFile /etc/ssl/virtualmin/170514456865864/ssl.ca
 </VirtualHost>
-
 ```
 
-I'm using virtualmin here for my SSL clusters, but you can also use certbot directly or your preferred SSL method. To use SSL:
+这里我使用 Virtualmin 来管理我的 SSL 集群，但你也可以直接使用 Certbot 或其他你喜欢的 SSL 方法。要使用 SSL：
 
-### Prerequisites
+### 前提条件
 
-Run the following commands:
+运行以下命令：
 
-`snap install certbot --classic`
-`snap apt install python3-certbot-apache` (this will install the apache plugin).
+```bash
+snap install certbot --classic
+snap apt install python3-certbot-apache  # 安装 apache 插件
+```
 
-Navigate to the apache sites-available directory:
+导航到 apache sites-available 目录：
 
-`cd /etc/apache2/sites-available/`
+```bash
+cd /etc/apache2/sites-available/
+```
 
-Create server.com.conf if it is not yet already created, containing the above `<virtualhost>` configuration (it should match your case. Modify as necessary). Use the one without the SSL:
+创建 `server.com.conf` 文件（如果尚未创建），包含上述 `<virtualhost>` 配置（应匹配你的实际情况，必要时进行修改）。使用没有 SSL 的版本：
 
-Once it's created, run `certbot --apache -d server.com`, this will request and add/create an SSL keys for you as well as create the server.com.le-ssl.conf
+一旦创建完成，运行 `certbot --apache -d server.com`，这将为你请求并添加/创建 SSL 密钥，同时创建 `server.com.le-ssl.conf`。
 
-# Configuring Ollama Server
+# 配置 Ollama 服务器
 
-On your latest installation of Ollama, make sure that you have setup your api server from the official Ollama reference:
+在最新安装的 Ollama 中，确保你已经按照官方 Ollama 参考设置了 API 服务器：
 
 [Ollama FAQ](https://github.com/jmorganca/ollama/blob/main/docs/faq.md)
 
-### TL;DR
+### 简要说明
 
-The guide doesn't seem to match the current updated service file on linux. So, we will address it here:
+指南似乎与当前更新的服务文件不匹配。因此，我们在这里解决这个问题：
 
-Unless when you're compiling Ollama from source, installing with the standard install `curl https://ollama.com/install.sh | sh` creates a file called `ollama.service` in /etc/systemd/system. You can use nano to edit the file:
+除非你从源代码编译 Ollama，标准安装 `curl https://ollama.com/install.sh | sh` 会在 `/etc/systemd/system` 目录下创建一个名为 `ollama.service` 的文件。你可以使用 nano 编辑该文件：
 
-```
+```bash
 sudo nano /etc/systemd/system/ollama.service
 ```
 
-Add the following lines:
+添加以下行：
 
-```
-Environment="OLLAMA_HOST=0.0.0.0:11434" # this line is mandatory. You can also specify
+```ini
+Environment="OLLAMA_HOST=0.0.0.0:11434"  # 此行是必需的。你也可以指定其他端口
 ```
 
-For instance:
+例如：
 
-```
+```ini
 [Unit]
 Description=Ollama Service
 After=network-online.target
 
 [Service]
 ExecStart=/usr/local/bin/ollama serve
-Environment="OLLAMA_HOST=0.0.0.0:11434" # this line is mandatory. You can also specify 192.168.254.109:DIFFERENT_PORT, format
-Environment="OLLAMA_ORIGINS=http://192.168.254.106:11434,https://models.server.city" # this line is optional
+Environment="OLLAMA_HOST=0.0.0.0:11434"  # 此行是必需的。你也可以指定其他 IP 和端口
+Environment="OLLAMA_ORIGINS=http://192.168.254.106:11434,https://models.server.city"  # 此行是可选的
 User=ollama
 Group=ollama
 Restart=always
@@ -128,25 +128,28 @@ Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/
 WantedBy=default.target
 ```
 
-Save the file by pressing CTRL+S, then press CTRL+X
+保存文件：按 CTRL+S，然后按 CTRL+X。
 
-When your computer restarts, the Ollama server will now be listening on the IP:PORT you specified, in this case 0.0.0.0:11434, or 192.168.254.106:11434 (whatever your local IP address is). Make sure that your router is correctly configured to serve pages from that local IP by forwarding 11434 to your local IP server.
+当你的计算机重启时，Ollama 服务器将在你指定的 IP:PORT 上监听，例如 0.0.0.0:11434 或 192.168.254.106:11434（取决于你的本地 IP 地址）。确保路由器正确配置以通过转发 11434 端口来提供页面。
 
-# Ollama Model Configuration
+# Ollama 模型配置
 
-## For the Ollama model configuration, use the following Apache VirtualHost setup
+## 对于 Ollama 模型配置，使用以下 Apache VirtualHost 设置
 
-Navigate to the apache sites-available directory:
+导航到 apache sites-available 目录：
 
-`cd /etc/apache2/sites-available/`
-
-`nano models.server.city.conf` # match this with your ollama server domain
-
-Add the follwoing virtualhost containing this example (modify as needed):
-
+```bash
+cd /etc/apache2/sites-available/
 ```
 
-# Assuming you have a website hosting this UI at "models.server.city"
+```bash
+nano models.server.city.conf  # 与你的 Ollama 服务器域名匹配
+```
+
+添加以下 VirtualHost 示例（根据需要修改）：
+
+```bash
+# 假设你有一个网站托管此 UI 在 "models.server.city"
 <IfModule mod_ssl.c>
     <VirtualHost 192.168.254.109:443>
         DocumentRoot "/var/www/html/"
@@ -155,15 +158,12 @@ Add the follwoing virtualhost containing this example (modify as needed):
             Options None
             Require all granted
         </Directory>
-
         ProxyRequests Off
         ProxyPreserveHost On
         ProxyAddHeaders On
         SSLProxyEngine on
-
-        ProxyPass / http://server.city:1000/ nocanon # or port 11434
-        ProxyPassReverse / http://server.city:1000/ # or port 11434
-
+        ProxyPass / http://server.city:1000/ nocanon  # 或者端口 11434
+        ProxyPassReverse / http://server.city:1000/  # 或者端口 11434
         SSLCertificateFile /etc/letsencrypt/live/models.server.city/fullchain.pem
         SSLCertificateKeyFile /etc/letsencrypt/live/models.server.city/privkey.pem
         Include /etc/letsencrypt/options-ssl-apache.conf
@@ -171,20 +171,24 @@ Add the follwoing virtualhost containing this example (modify as needed):
 </IfModule>
 ```
 
-You may need to enable the site first (if you haven't done so yet) before you can request SSL:
+如果尚未启用站点，请先启用（如果还没有这样做）：
 
-`a2ensite models.server.city.conf`
-
-#### For the SSL part of Ollama server
-
-Run the following commands:
-
-Navigate to the apache sites-available directory:
-
-`cd /etc/apache2/sites-available/`
-`certbot --apache -d server.com`
-
+```bash
+a2ensite models.server.city.conf
 ```
+
+#### 对于 Ollama 服务器的 SSL 部分
+
+运行以下命令：
+
+导航到 apache sites-available 目录：
+
+```bash
+cd /etc/apache2/sites-available/
+certbot --apache -d server.com
+```
+
+```bash
 <VirtualHost 192.168.254.109:80>
     DocumentRoot "/var/www/html/"
     ServerName models.server.city
@@ -192,32 +196,28 @@ Navigate to the apache sites-available directory:
         Options None
         Require all granted
     </Directory>
-
     ProxyRequests Off
     ProxyPreserveHost On
     ProxyAddHeaders On
     SSLProxyEngine on
-
-    ProxyPass / http://server.city:1000/ nocanon # or port 11434
-    ProxyPassReverse / http://server.city:1000/ # or port 11434
-
+    ProxyPass / http://server.city:1000/ nocanon  # 或者端口 11434
+    ProxyPassReverse / http://server.city:1000/  # 或者端口 11434
     RewriteEngine on
     RewriteCond %{SERVER_NAME} =models.server.city
     RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
 </VirtualHost>
-
 ```
 
-Don't forget to restart/reload Apache with `systemctl reload apache2`
+不要忘记重启或重新加载 Apache：`systemctl reload apache2`
 
-Open your site at https://server.com!
+打开你的站点：https://server.com！
 
-**Congratulations**, your _**Open-AI-like Chat-GPT style UI**_ is now serving AI with RAG, RBAC and multimodal features! Download Ollama models if you haven't yet done so!
+**恭喜**，你的 **Open-AI-like Chat-GPT 风格 UI** 现在正在提供具有 RAG、RBAC 和多模态功能的 AI 服务！如果还没有下载 Ollama 模型，请尽快下载！
 
-If you encounter any misconfiguration or errors, please file an issue or engage with our discussion. There are a lot of friendly developers here to assist you.
+如果遇到任何配置错误或问题，请提交问题或参与讨论。这里有大量友好的开发者可以帮助你。
 
-Let's make this UI much more user friendly for everyone!
+让我们共同努力，使这个 UI 更加友好！
 
-Thanks for making open-webui your UI Choice for AI!
+感谢您选择 open-webui 作为您的 AI 用户界面！
 
-This doc is made by **Bob Reyes**, your **Open-WebUI** fan from the Philippines.
+此文档由 **Bob Reyes** 制作，他是来自菲律宾的 **Open-WebUI** 粉丝。

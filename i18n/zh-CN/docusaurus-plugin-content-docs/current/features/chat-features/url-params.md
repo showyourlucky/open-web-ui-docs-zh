@@ -1,94 +1,94 @@
 ---
 sidebar_position: 5
-title: "🔗 URL Parameters"
+title: "🔗 URL 参数"
 ---
 
-In Open WebUI, chat sessions can be customized through various URL parameters. These parameters allow you to set specific configurations, enable features, and define model settings on a per-chat basis. This approach provides flexibility and control over individual chat sessions directly from the URL.
+在 Open WebUI 中，您可以通过各种 URL 参数自定义聊天会话。这些参数允许您为每个聊天设置特定的配置、启用功能并定义模型设置。这种方法提供了直接从 URL 对单个聊天会话进行灵活控制的能力。
 
-## URL Parameter Overview
+## URL 参数概览
 
-The following table lists the available URL parameters, their function, and example usage.
+下表列出了可用的 URL 参数、它们的功能及使用示例。
 
-| **Parameter**      | **Description**                                                                  | **Example**                          |
+| **参数**      | **描述**                                                                  | **示例**                          |
 |-----------------------|----------------------------------------------------------------------------------|--------------------------------------------------------|
-| `models`           | Specifies the models to be used, as a comma-separated list.                     | `/?models=model1,model2`         |
-| `model`            | Specifies a single model to be used for the chat session.                       | `/?model=model1`                 |
-| `youtube`          | Specifies a YouTube video ID to be transcribed within the chat.                 | `/?youtube=VIDEO_ID`             |
-| `web-search`       | Enables web search functionality if set to `true`.                              | `/?web-search=true`              |
-| `tools` or `tool-ids` | Specifies a comma-separated list of tool IDs to activate in the chat.          | `/?tools=tool1,tool2`            |
-| `call`             | Enables a call overlay if set to `true`.                                        | `/?call=true`                    |
-| `q`                | Sets an initial query or prompt for the chat.                                   | `/?q=Hello%20there`              |
-| `temporary-chat`   | Marks the chat as temporary if set to `true`, for one-time sessions.            | `/?temporary-chat=true`          |
+| `models`           | 指定要使用的模型，以逗号分隔的列表形式。                     | `/?models=model1,model2`         |
+| `model`            | 指定用于聊天会话的单一模型。                       | `/?model=model1`                 |
+| `youtube`          | 指定要在聊天中转录的 YouTube 视频 ID。                 | `/?youtube=VIDEO_ID`             |
+| `web-search`       | 如果设置为 `true`，则启用网络搜索功能。                              | `/?web-search=true`              |
+| `tools` 或 `tool-ids` | 指定要激活的工具 ID 列表，以逗号分隔。          | `/?tools=tool1,tool2`            |
+| `call`             | 如果设置为 `true`，则启用呼叫覆盖层。                                        | `/?call=true`                    |
+| `q`                | 设置聊天的初始查询或提示。                                   | `/?q=Hello%20there`              |
+| `temporary-chat`   | 如果设置为 `true`，则将聊天标记为临时会话，适用于一次性会话。            | `/?temporary-chat=true`          |
 
-### 1. **Models and Model Selection**
+### 1. **模型和模型选择**
 
-- **Description**: The `models` and `model` parameters allow you to specify which [language models](/features/workspace/models.md) should be used for a particular chat session.
-- **How to Set**: You can use either `models` for multiple models or `model` for a single model.
-- **Example**:
-  - `/?models=model1,model2` – This initializes the chat with `model1` and `model2`.
-  - `/?model=model1` – This sets `model1` as the sole model for the chat.
+- **描述**: `models` 和 `model` 参数允许您指定在特定聊天会话中应使用哪些[语言模型](/features/workspace/models.md)。
+- **如何设置**: 可以使用 `models` 来指定多个模型，或使用 `model` 来指定单一模型。
+- **示例**:
+  - `/?models=model1,model2` – 这将使用 `model1` 和 `model2` 初始化聊天。
+  - `/?model=model1` – 这将 `model1` 设置为聊天的唯一模型。
 
-### 2. **YouTube Transcription**
+### 2. **YouTube 转录**
 
-- **Description**: The `youtube` parameter takes a YouTube video ID, enabling the chat to transcribe the specified video.
-- **How to Set**: Use the YouTube video ID as the value for this parameter.
-- **Example**: `/?youtube=VIDEO_ID`
-- **Behavior**: This triggers transcription functionality within the chat for the provided YouTube video.
+- **描述**: `youtube` 参数接收一个 YouTube 视频 ID，使聊天能够转录指定的视频。
+- **如何设置**: 使用 YouTube 视频 ID 作为该参数的值。
+- **示例**: `/?youtube=VIDEO_ID`
+- **行为**: 这会在聊天中触发对提供的 YouTube 视频进行转录的功能。
 
-### 3. **Web Search**
+### 3. **网络搜索**
 
-- **Description**: Enabling `web-search` allows the chat session to access [web search](/tutorials/integrations/web_search) functionality.
-- **How to Set**: Set this parameter to `true` to enable web search.
-- **Example**: `/?web-search=true`
-- **Behavior**: If enabled, the chat can retrieve web search results as part of its responses.
+- **描述**: 启用 `web-search` 允许聊天会话访问[网络搜索](/tutorials/integrations/web_search)功能。
+- **如何设置**: 将此参数设置为 `true` 以启用网络搜索。
+- **示例**: `/?web-search=true`
+- **行为**: 如果启用，聊天可以在其回复中检索网络搜索结果。
 
-### 4. **Tool Selection**
+### 4. **工具选择**
 
-- **Description**: The `tools` or `tool-ids` parameters specify which [tools](/features/plugin/tools) to activate within the chat.
-- **How to Set**: Provide a comma-separated list of tool IDs as the parameter’s value.
-- **Example**: `/?tools=tool1,tool2` or `/?tool-ids=tool1,tool2`
-- **Behavior**: Each tool ID is matched and activated within the session for user interaction.
+- **描述**: `tools` 或 `tool-ids` 参数指定在聊天中激活哪些[工具](/features/plugin/tools)。
+- **如何设置**: 提供以逗号分隔的工具 ID 列表作为参数的值。
+- **示例**: `/?tools=tool1,tool2` 或 `/?tool-ids=tool1,tool2`
+- **行为**: 每个工具 ID 都会在会话中匹配并激活，以便用户交互。
 
-### 5. **Call Overlay**
+### 5. **呼叫覆盖层**
 
-- **Description**: The `call` parameter enables a video or call overlay in the chat interface.
-- **How to Set**: Set the parameter to `true` to enable the call overlay.
-- **Example**: `/?call=true`
-- **Behavior**: Activates a call interface overlay, allowing features such as live transcription and video input.
+- **描述**: `call` 参数启用聊天界面中的视频或呼叫覆盖层。
+- **如何设置**: 将参数设置为 `true` 以启用呼叫覆盖层。
+- **示例**: `/?call=true`
+- **行为**: 激活呼叫界面覆盖层，允许实时转录和视频输入等功能。
 
-### 6. **Initial Query Prompt**
+### 6. **初始查询提示**
 
-- **Description**: The `q` parameter allows setting an initial query or prompt for the chat.
-- **How to Set**: Specify the query or prompt text as the parameter value.
-- **Example**: `/?q=Hello%20there`
-- **Behavior**: The chat starts with the specified prompt, automatically submitting it as the first message.
+- **描述**: `q` 参数允许设置聊天的初始查询或提示。
+- **如何设置**: 将查询或提示文本作为参数的值。
+- **示例**: `/?q=Hello%20there`
+- **行为**: 聊天将以指定的提示开始，并自动提交作为第一条消息。
 
-### 7. **Temporary Chat Sessions**
+### 7. **临时聊天会话**
 
-- **Description**: The `temporary-chat` parameter marks the chat as a temporary session. This may limit features such as saving chat history or applying persistent settings.
-- **How to Set**: Set this parameter to `true` for a temporary chat session.
-- **Example**: `/?temporary-chat=true`
-- **Behavior**: This initiates a disposable chat session without saving history or applying advanced configurations.
+- **描述**: `temporary-chat` 参数将聊天标记为临时会话。这可能会限制保存聊天历史记录或应用持久性设置等功能。
+- **如何设置**: 将此参数设置为 `true` 以创建临时聊天会话。
+- **示例**: `/?temporary-chat=true`
+- **行为**: 这将启动一个不保存历史记录且不应用高级配置的临时聊天会话。
 
 <details>
-<summary>Example Use Case</summary>
-:::tip **Temporary Chat Session**
-Suppose a user wants to initiate a quick chat session without saving the history. They can do so by setting `temporary-chat=true` in the URL. This provides a disposable chat environment ideal for one-time interactions.
+<summary>使用示例</summary>
+:::tip **临时聊天会话**
+假设用户希望发起一个不保存历史记录的快速聊天会话。他们可以通过在 URL 中设置 `temporary-chat=true` 来实现这一点。这提供了一个适合一次性互动的临时聊天环境。
 :::
 </details>
 
-## Using Multiple Parameters Together
+## 多个参数组合使用
 
-These URL parameters can be combined to create highly customized chat sessions. For example:
+这些 URL 参数可以组合使用，以创建高度定制化的聊天会话。例如：
 
 ```bash
 /chat?models=model1,model2&youtube=VIDEO_ID&web-search=true&tools=tool1,tool2&call=true&q=Hello%20there&temporary-chat=true
 ```
 
-This URL will:
+这个 URL 将：
 
-- Initialize the chat with `model1` and `model2`.
-- Enable YouTube transcription, web search, and specified tools.
-- Display a call overlay.
-- Set an initial prompt of "Hello there."
-- Mark the chat as temporary, avoiding any history saving.
+- 使用 `model1` 和 `model2` 初始化聊天。
+- 启用 YouTube 转录、网络搜索和指定的工具。
+- 显示呼叫覆盖层。
+- 设置初始提示为 "Hello there"。
+- 将聊天标记为临时，避免保存任何历史记录。

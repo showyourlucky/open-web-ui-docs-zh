@@ -1,16 +1,16 @@
-# Docker Compose Setup
+# Docker Compose 设置
 
-Using Docker Compose simplifies the management of multi-container Docker applications.
+使用 Docker Compose 可以简化多容器 Docker 应用的管理。
 
-If you don't have Docker installed, check out our [Docker installation tutorial](docs/tutorials/docker-install.md).
+如果你还没有安装 Docker，请参阅我们的 [Docker 安装教程](docs/tutorials/docker-install.md)。
 
-Docker Compose requires an additional package, `docker-compose-v2`.
+Docker Compose 需要一个额外的包，即 `docker-compose-v2`。
 
-**Warning:** Older Docker Compose tutorials may reference version 1 syntax, which uses commands like `docker-compose build`. Ensure you use version 2 syntax, which uses commands like `docker compose build` (note the space instead of a hyphen).
+**警告：** 较旧的 Docker Compose 教程可能会引用版本 1 的语法，这些语法使用诸如 `docker-compose build` 这样的命令。请确保你使用的是版本 2 的语法，它使用诸如 `docker compose build`（注意这里用空格代替了连字符）这样的命令。
 
-## Example `docker-compose.yml`
+## 示例 `docker-compose.yml`
 
-Here is an example configuration file for setting up Open WebUI with Docker Compose:
+以下是一个使用 Docker Compose 设置 Open WebUI 的示例配置文件：
 
 ```yaml
 version: '3'
@@ -25,21 +25,21 @@ volumes:
   open-webui:
 ```
 
-## Starting the Services
+## 启动服务
 
-To start your services, run the following command:
+要启动你的服务，请运行以下命令：
 
 ```bash
 docker compose up -d
 ```
 
-## Helper Script
+## 辅助脚本
 
-A useful helper script called `run-compose.sh` is included with the codebase. This script assists in choosing which Docker Compose files to include in your deployment, streamlining the setup process.
+代码库中包含了一个名为 `run-compose.sh` 的实用辅助脚本。这个脚本可以帮助你在部署时选择要包含的 Docker Compose 文件，从而简化设置过程。
 
 ---
 
-**Note:** For Nvidia GPU support, add the following to your service definition in the `docker-compose.yml` file:
+**注意：** 若要支持 Nvidia GPU，在你的 `docker-compose.yml` 文件的服务定义中添加以下内容：
 
 ```yaml
 deploy:
@@ -51,4 +51,4 @@ deploy:
           capabilities: [gpu]
 ```
 
-This setup ensures that your application can leverage GPU resources when available.
+这种设置确保你的应用程序在有可用 GPU 资源时可以充分利用它们。

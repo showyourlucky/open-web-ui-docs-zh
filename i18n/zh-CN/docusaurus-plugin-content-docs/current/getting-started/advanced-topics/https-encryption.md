@@ -1,27 +1,27 @@
 ---
 sidebar_position: 6
-title: "🔒HTTPS Encryption"
+title: "🔒 HTTPS 加密"
 ---
 
-## Overview
+## 概述
 
-While HTTPS encryption is **not required** to operate Open WebUI in most cases, certain features—such as **Voice Calls**—will be blocked by modern web browsers unless HTTPS is enabled. If you do not plan to use these features, you can skip this section.
+尽管在大多数情况下，运行 Open WebUI 并不需要 **HTTPS 加密**，但某些功能（如 **语音通话**）将被现代浏览器阻止，除非启用了 HTTPS。如果你不打算使用这些功能，可以跳过这一部分。
 
-## Importance of HTTPS
+## HTTPS 的重要性
 
-For deployments at high risk of traffic interception, such as those hosted on the internet, it is recommended to implement HTTPS encryption. This ensures that the username/password signup and authentication process remains secure, protecting sensitive user data from potential threats.
+对于那些有较高流量拦截风险的部署环境，例如托管在互联网上的应用，建议实施 HTTPS 加密。这确保了用户名/密码注册和认证过程的安全性，保护敏感用户数据免受潜在威胁。
 
-## Choosing Your HTTPS Solution
+## 选择适合你的 HTTPS 方案
 
-The choice of HTTPS encryption solution is up to the user and should align with the existing infrastructure. Here are some common scenarios:
+选择哪种 HTTPS 加密方案取决于用户的具体需求，并应与现有基础设施相匹配。以下是一些常见场景：
 
-- **AWS Environments**: Utilizing an AWS Elastic Load Balancer is often a practical choice for managing HTTPS.
-- **Docker Container Environments**: Popular solutions include Nginx, Traefik, and Caddy.
-- **Cloudflare**: Offers easy HTTPS setup with minimal server-side configuration, suitable for a wide range of applications.
-- **Ngrok**: Provides a quick way to set up HTTPS for local development environments, particularly useful for testing and demos.
+- **AWS 环境**：使用 AWS 弹性负载均衡器通常是管理 HTTPS 的实用选择。
+- **Docker 容器环境**：常用的解决方案包括 Nginx、Traefik 和 Caddy。
+- **Cloudflare**：提供了一种简单的方式进行 HTTPS 设置，只需少量服务器端配置，适用于各种应用。
+- **Ngrok**：为本地开发环境快速设置 HTTPS 提供了便捷的方法，特别适合测试和演示。
 
-## Further Guidance
+## 更多指导
 
-For detailed instructions and community-submitted tutorials on actual HTTPS encryption deployments, please refer to the [Deployment Tutorials](../../tutorials/deployment/).
+有关实际 HTTPS 加密部署的详细说明和社区提交的教程，请参阅 [部署教程](../../tutorials/deployment/)。
 
-This documentation provides a starting point for understanding the options available for enabling HTTPS encryption in your environment.
+本文档为理解如何在你的环境中启用 HTTPS 加密提供了起点。

@@ -1,31 +1,31 @@
 ---
 sidebar_position: 400
-title: "🔗 API Endpoints"
+title: "🔗 API 端点"
 ---
 
-This guide provides essential information on how to interact with the API endpoints effectively to achieve seamless integration and automation using our models. Please note that this is an experimental setup and may undergo future updates for enhancement.
+本指南提供了如何有效使用我们的模型进行无缝集成和自动化的 API 端点相关信息。请注意，这是一个实验性设置，未来可能会有更新以提升功能。
 
-## Authentication
+## 身份验证
 
-To ensure secure access to the API, authentication is required 🛡️. You can authenticate your API requests using the Bearer Token mechanism. Obtain your API key from **Settings > Account** in the Open WebUI, or alternatively, use a JWT (JSON Web Token) for authentication.
+为了确保安全访问 API，需要进行身份验证 🛡️。您可以使用 Bearer Token 机制对 API 请求进行身份验证。您可以在 Open WebUI 的 **设置 > 帐户** 中获取您的 API 密钥，或者使用 JWT（JSON Web Token）进行身份验证。
 
-## Notable API Endpoints
+## 主要 API 端点
 
-### 📜 Retrieve All Models
+### 📜 获取所有模型
 
-- **Endpoint**: `GET /api/models`
-- **Description**: Fetches all models created or added via Open WebUI.
-- **Example**:
+- **端点**: `GET /api/models`
+- **描述**: 获取通过 Open WebUI 创建或添加的所有模型。
+- **示例**:
 
   ```bash
   curl -H "Authorization: Bearer YOUR_API_KEY" http://localhost:3000/api/models
   ```
 
-### 💬 Chat Completions
+### 💬 聊天补全
 
-- **Endpoint**: `POST /api/chat/completions`
-- **Description**: Serves as an OpenAI API compatible chat completion endpoint for models on Open WebUI including Ollama models, OpenAI models, and Open WebUI Function models.
-- **Example**:
+- **端点**: `POST /api/chat/completions`
+- **描述**: 这是一个与 OpenAI API 兼容的聊天补全端点，适用于 Open WebUI 上的模型，包括 Ollama 模型、OpenAI 模型和 Open WebUI 函数模型。
+- **示例**:
 
   ```bash
   curl -X POST http://localhost:3000/api/chat/completions \
@@ -36,33 +36,33 @@ To ensure secure access to the API, authentication is required 🛡️. You can 
         "messages": [
           {
             "role": "user",
-            "content": "Why is the sky blue?"
+            "content": "为什么天空是蓝色的？"
           }
         ]
       }'
   ```
 
-### 🧩 Retrieval Augmented Generation (RAG)
+### 🧩 检索增强生成 (RAG)
 
-The Retrieval Augmented Generation (RAG) feature allows you to enhance responses by incorporating data from external sources. Below, you will find the methods for managing files and knowledge collections via the API, and how to use them in chat completions effectively.
+检索增强生成 (RAG) 功能允许您通过结合外部数据来增强响应。以下内容介绍了如何通过 API 管理文件和知识集合，并在聊天补全中有效地使用它们。
 
-#### Uploading Files
+#### 上传文件
 
-To utilize external data in RAG responses, you first need to upload the files. The content of the uploaded file is automatically extracted and stored in a vector database.
+要在 RAG 响应中使用外部数据，首先需要上传文件。上传文件的内容将自动提取并存储在向量数据库中。
 
-- **Endpoint**: `POST /api/v1/files/`
-- **Curl Example**:
+- **端点**: `POST /api/v1/files/`
+- **Curl 示例**:
 
   ```bash
   curl -X POST -H "Authorization: Bearer YOUR_API_KEY" -H "Accept: application/json" \
   -F "file=@/path/to/your/file" http://localhost:3000/api/v1/files/
   ```
 
-- **Python Example**:
+- **Python 示例**:
 
   ```python
   import requests
-  
+
   def upload_file(token, file_path):
       url = 'http://localhost:3000/api/v1/files/'
       headers = {
@@ -74,12 +74,12 @@ To utilize external data in RAG responses, you first need to upload the files. T
       return response.json()
   ```
 
-#### Adding Files to Knowledge Collections
+#### 将文件添加到知识集合
 
-After uploading, you can group files into a knowledge collection or reference them individually in chats.
+上传后，您可以将文件分组为知识集合，或者在聊天中单独引用它们。
 
-- **Endpoint**: `POST /api/v1/knowledge/{id}/file/add`
-- **Curl Example**:
+- **端点**: `POST /api/v1/knowledge/{id}/file/add`
+- **Curl 示例**:
 
   ```bash
   curl -X POST http://localhost:3000/api/v1/knowledge/{knowledge_id}/file/add \
@@ -88,7 +88,7 @@ After uploading, you can group files into a knowledge collection or reference th
   -d '{"file_id": "your-file-id-here"}'
   ```
 
-- **Python Example**:
+- **Python 示例**:
 
   ```python
   import requests
@@ -104,16 +104,16 @@ After uploading, you can group files into a knowledge collection or reference th
       return response.json()
   ```
 
-#### Using Files and Collections in Chat Completions
+#### 在聊天补全中使用文件和集合
 
-You can reference both individual files or entire collections in your RAG queries for enriched responses.
+您可以在 RAG 查询中引用单个文件或整个集合，以获得更丰富的响应。
 
-##### Using an Individual File in Chat Completions
+##### 使用单个文件进行聊天补全
 
-This method is beneficial when you want to focus the chat model's response on the content of a specific file.
+当您希望让聊天模型的响应集中在特定文件的内容上时，这种方法非常有用。
 
-- **Endpoint**: `POST /api/chat/completions`
-- **Curl Example**:
+- **端点**: `POST /api/chat/completions`
+- **Curl 示例**:
 
   ```bash
   curl -X POST http://localhost:3000/api/chat/completions \
@@ -122,7 +122,7 @@ This method is beneficial when you want to focus the chat model's response on th
   -d '{
         "model": "gpt-4-turbo",
         "messages": [
-          {"role": "user", "content": "Explain the concepts in this document."}
+          {"role": "user", "content": "解释这份文档中的概念。"}
         ],
         "files": [
           {"type": "file", "id": "your-file-id-here"}
@@ -130,7 +130,7 @@ This method is beneficial when you want to focus the chat model's response on th
       }'
   ```
 
-- **Python Example**:
+- **Python 示例**:
 
   ```python
   import requests
@@ -150,12 +150,12 @@ This method is beneficial when you want to focus the chat model's response on th
       return response.json()
   ```
 
-##### Using a Knowledge Collection in Chat Completions
+##### 使用知识集合进行聊天补全
 
-Leverage a knowledge collection to enhance the response when the inquiry may benefit from a broader context or multiple documents.
+当查询可能从更广泛的上下文或多份文档中受益时，可以利用知识集合来增强响应。
 
-- **Endpoint**: `POST /api/chat/completions`
-- **Curl Example**:
+- **端点**: `POST /api/chat/completions`
+- **Curl 示例**:
 
   ```bash
   curl -X POST http://localhost:3000/api/chat/completions \
@@ -164,7 +164,7 @@ Leverage a knowledge collection to enhance the response when the inquiry may ben
   -d '{
         "model": "gpt-4-turbo",
         "messages": [
-          {"role": "user", "content": "Provide insights on the historical perspectives covered in the collection."}
+          {"role": "user", "content": "提供关于集合中涵盖的历史视角的见解。"}
         ],
         "files": [
           {"type": "collection", "id": "your-collection-id-here"}
@@ -172,11 +172,11 @@ Leverage a knowledge collection to enhance the response when the inquiry may ben
       }'
   ```
 
-- **Python Example**:
+- **Python 示例**:
 
   ```python
   import requests
-  
+
   def chat_with_collection(token, model, query, collection_id):
       url = 'http://localhost:3000/api/chat/completions'
       headers = {
@@ -192,26 +192,26 @@ Leverage a knowledge collection to enhance the response when the inquiry may ben
       return response.json()
   ```
 
-These methods enable effective utilization of external knowledge via uploaded files and curated knowledge collections, enhancing chat applications' capabilities using the Open WebUI API. Whether using files individually or within collections, you can customize the integration based on your specific needs.
+这些方法使您能够通过上传的文件和精心策划的知识集合有效地利用外部知识，从而增强基于 Open WebUI API 的聊天应用的功能。无论是单独使用文件还是在集合中使用，您都可以根据具体需求自定义集成。
 
-## Advantages of Using Open WebUI as a Unified LLM Provider
+## 使用 Open WebUI 作为统一 LLM 提供商的优势
 
-Open WebUI offers a myriad of benefits, making it an essential tool for developers and businesses alike:
+Open WebUI 提供了诸多优势，使其成为开发者和企业的必备工具：
 
-- **Unified Interface**: Simplify your interactions with different LLMs through a single, integrated platform.
-- **Ease of Implementation**: Quick start integration with comprehensive documentation and community support.
+- **统一界面**: 通过单一的集成平台简化与不同 LLM 的交互。
+- **易于实现**: 快速启动集成，提供全面的文档和社区支持。
 
-## Swagger Documentation Links
+## Swagger 文档链接
 
 :::important
-Make sure to set the `ENV` environment variable to `dev` in order to access the Swagger documentation for any of these services. Without this configuration, the documentation will not be available.
+请确保将 `ENV` 环境变量设置为 `dev`，以便访问任何服务的 Swagger 文档。如果没有此配置，文档将不可用。
 :::
 
-Access detailed API documentation for different services provided by Open WebUI:
+访问 Open WebUI 提供的不同服务的详细 API 文档：
 
-| Application | Documentation Path      |
+| 应用程序 | 文档路径      |
 |-------------|-------------------------|
-| Main        | `/docs`                 |
+| 主应用       | `/docs`                 |
 
 
-By following these guidelines, you can swiftly integrate and begin utilizing the Open WebUI API. Should you encounter any issues or have questions, feel free to reach out through our Discord Community or consult the FAQs. Happy coding! 🌟
+遵循这些指南，您可以快速集成并开始使用 Open WebUI API。如果您遇到任何问题或有任何疑问，请随时通过我们的 Discord 社区联系我们，或查阅常见问题解答。祝您编码愉快！ 🌟

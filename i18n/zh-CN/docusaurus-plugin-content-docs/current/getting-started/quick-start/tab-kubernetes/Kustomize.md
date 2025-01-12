@@ -1,34 +1,34 @@
 
-# Kustomize Setup for Kubernetes
+# Kubernetes 的 Kustomize 设置
 
-Kustomize allows you to customize Kubernetes YAML configurations.
+Kustomize 使您能够自定义 Kubernetes 的 YAML 配置文件。
 
-## Prerequisites
+## 前提条件
 
-- Kubernetes cluster is set up.
-- Kustomize is installed.
+- 已设置 Kubernetes 集群。
+- 已安装 Kustomize。
 
-## Steps
+## 步骤
 
-1. **Clone the Open WebUI Manifests:**
+1. **克隆 Open WebUI 清单：**
 
    ```bash
    git clone https://github.com/open-webui/k8s-manifests.git
    cd k8s-manifests
    ```
 
-2. **Apply the Manifests:**
+2. **应用清单：**
 
    ```bash
    kubectl apply -k .
    ```
 
-3. **Verify Installation:**
+3. **验证安装：**
 
    ```bash
    kubectl get pods
    ```
 
-## Access the WebUI
+## 访问 WebUI
 
-Set up port forwarding or load balancing to access Open WebUI from outside the cluster.
+通过设置端口转发或负载均衡，从集群外部访问 Open WebUI。

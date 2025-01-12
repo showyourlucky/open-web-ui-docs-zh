@@ -1,55 +1,55 @@
 ---
 sidebar_position: 1
-title: "🧠 Knowledge"
+title: "🧠 知识"
 ---
 
- Knowledge part of Open WebUI is like a memory bank that makes your interactions even more powerful and context-aware. Let's break down what "Knowledge" really means in Open WebUI, how it works, and why it’s incredibly helpful for enhancing your experience.
+Open WebUI 的知识部分就像一个记忆库，使你的互动更加有力且具有上下文感知能力。让我们来详细了解一下 Open WebUI 中的“知识”究竟意味着什么，它是如何工作的，以及为什么它对提升你的体验非常有帮助。
 
 ## TL;DR
 
-- **Knowledge** is a section in Open WebUI where you can store structured information that the system can refer to during your interactions.
-- It’s like a memory system for Open WebUI that allows it to pull from saved data, making responses more personalized and contextually aware.
-- You can use Knowledge directly in your chats with Open WebUI to access the stored data whenever you need it.
+- **知识** 是 Open WebUI 中的一个部分，你可以在这里存储结构化的信息，系统可以在互动过程中参考这些信息。
+- 它就像是 Open WebUI 的记忆系统，允许它从保存的数据中提取信息，使回复更加个性化和上下文感知。
+- 你可以在与 Open WebUI 的聊天中直接使用知识，随时访问存储的数据。
 
-Setting up Knowledge is straightforward! Simply head to the Knowledge section inside work space and start adding details or data. You don’t need coding expertise or technical setup; it’s built into the core system!
+设置知识非常简单！只需进入工作区中的知识部分，开始添加细节或数据即可。你不需要编程知识或技术设置，因为它已经内置于核心系统中！
 
-## What is the "Knowledge" Section?
+## 什么是“知识”部分？
 
-The **Knowledge section** is a storage area within Open WebUI where you can save specific pieces of information or data points. Think of it as a **reference library** that Open WebUI can use to make its responses more accurate and relevant to your needs.
+**知识部分** 是 Open WebUI 内的一个存储区域，你可以在这里保存特定的信息或数据点。可以把它想象成一个供 Open WebUI 使用的**参考图书馆**，以便其回复更加准确和符合你的需求。
 
-### Why is Knowledge Useful?
+### 知识有何用处？
 
-Imagine you're working on a long-term project and want the system to remember certain parameters, settings, or even key notes about the project without having to remind it every time. Or perhaps, you want it to remember specific personal preferences for chats and responses. The Knowledge section is where you can store this kind of **persistent information** so that Open WebUI can reference it in future conversations, creating a more **coherent, personalized experience**.
+假设你在进行一个长期项目，并希望系统记住某些参数、设置，甚至是项目的要点，而无需每次都提醒它。或者，你希望它记住一些个人偏好，以便在聊天和回复时能够体现出来。知识部分就是用来存储这种**持久信息**的地方，这样 Open WebUI 就可以在未来的对话中引用这些信息，创造一个更加**连贯、个性化的体验**。
 
-Some examples of what you might store in Knowledge:
+以下是一些你可能会存储在知识中的例子：
 
-- Important project parameters or specific data points you’ll frequently reference.
-- Custom commands, workflows, or settings you want to apply.
-- Personal preferences, guidelines, or rules that Open WebUI can follow in every chat.
+- 重要的项目参数或你经常需要参考的具体数据点。
+- 你想要应用的自定义命令、工作流或设置。
+- Open WebUI 在每次聊天中都可以遵循的个人偏好、指南或规则。
 
-### How to Use Knowledge in Chats
+### 如何在聊天中使用知识
 
-Accessing stored Knowledge in your chats is easy! By simply referencing what’s saved(using '#' before the name), Open WebUI can pull in data or follow specific guidelines that you’ve set up in the Knowledge section.
+在聊天中访问存储的知识非常简单！只需通过在名称前加上“#”，引用已保存的内容，Open WebUI 就可以调用数据或遵循你在知识部分设置的具体指南。
 
-For example:
+例如：
 
-- When discussing a project, Open WebUI can automatically recall your specified project details.
-- It can apply custom preferences to responses, like formality levels or preferred phrasing.
+- 当讨论项目时，Open WebUI 可以自动回忆起你指定的项目详情。
+- 它可以根据你的偏好调整回复的正式程度或首选措辞。
 
-To reference Knowledge in your chats, just ensure it’s saved in the Knowledge section, and Open WebUI will know when and where to bring in the relevant information!
+要引用聊天中的知识，只需确保它们已被保存在知识部分，Open WebUI 就会在合适的时间和地点引入相关信息！
 
-Admins can add knowledge to the workspace, which users can access and use; however, users do not have direct access to the workspace itself.
+管理员可以将知识添加到工作区，用户可以访问和使用这些知识，但用户无法直接访问工作区本身。
 
-### Setting Up Your Knowledge Base
+### 设置你的知识库
 
-1. **Navigate to the Knowledge Section**: This area is designed to be user-friendly and intuitive.
-2. **Add Entries**: Input information you want Open WebUI to remember. It can be as specific or broad as you like.
-3. **Save and Apply**: Once saved, the Knowledge is accessible and ready to enhance your chat interactions.
+1. **导航到知识部分**：此区域设计得非常友好且直观。
+2. **添加条目**：输入你希望 Open WebUI 记住的信息，内容可以具体也可以宽泛。
+3. **保存并应用**：一旦保存，知识就可以被访问并用于增强你的聊天互动。
 
-## Summary
+## 总结
 
-- The Knowledge section is like Open WebUI's "memory bank," where you can store data that you want it to remember and use.
-- **Use Knowledge to keep the system aware** of important details, ensuring a personalized chat experience.
-- You can **directly reference Knowledge in chats** to bring in stored data whenever you need it using '#' + name of the knowlege.
+- 知识部分就像是 Open WebUI 的“记忆库”，你可以在这里存储希望它记住并使用的数据。
+- **利用知识保持系统的知情状态**，确保个性化的聊天体验。
+- 你可以**直接在聊天中引用知识**，使用“#”加知识名称的方式调用存储的数据。
 
-🌟 Remember, there’s always more to discover, so dive in and make Open WebUI truly your own!
+🌟 记住，总有更多值得探索的内容，所以尽情尝试，让 Open WebUI 成为你自己的专属工具吧！

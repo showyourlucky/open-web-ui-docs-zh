@@ -1,21 +1,21 @@
 ---
 sidebar_position: 5
-title: "🔄 Migration"
+title: "🔄 迁移"
 ---
 
-## Migrating from Internal to External LiteLLM
+## 将 LiteLLM 从内部迁移到外部
 
-Previous versions (Pre 0.2) of Open WebUI ran `litellm` internally. To improve modularity and flexibility, we recommend running `litellm` in its own dedicated container. This guide will walk you through the migration process.
+在 0.2 版本之前，Open WebUI 内部运行 `litellm`。为了提高模块化和灵活性，我们建议将 `litellm` 在其专属容器中运行。本指南将引导您完成迁移过程。
 
-### 1. Download Your `config.yaml` File
+### 1. 下载 `config.yaml` 文件
 
-Before making any changes, download your existing `config.yaml` file from the Open WebUI Admin Settings window. This file contains your current `litellm` configuration.
+在进行任何更改之前，请从 Open WebUI 管理设置窗口下载现有的 `config.yaml` 文件。该文件包含了您当前的 `litellm` 配置。
 
-![LiteLLM config.yaml Download](/img/migration_litellm_config.png)
+![LiteLLM config.yaml 下载](/img/migration_litellm_config.png)
 
-### 2. Run a Standalone `litellm` Container
+### 2. 运行独立的 `litellm` 容器
 
-Use the following `docker run` command to launch a dedicated `litellm` container:
+使用以下 `docker run` 命令启动一个专用的 `litellm` 容器：
 
 ```bash
 docker run -d \
@@ -28,68 +28,68 @@ docker run -d \
   --config /app/config.yaml --port 4000
 ```
 
-- Replace `./config.yaml` with the actual path to the downloaded `config.yaml` file.
-- Set a secure API key for `LITELLM_MASTER_KEY`. This ensures controlled access to your `litellm` instance.
+- 将 `./config.yaml` 替换为您实际下载的 `config.yaml` 文件路径。
+- 设置一个安全的 API 密钥作为 `LITELLM_MASTER_KEY`。这可以确保对您的 `litellm` 实例进行受控访问。
 
-### 3. Connect `litellm` to Open WebUI
+### 3. 将 `litellm` 连接到 Open WebUI
 
-Once the `litellm` container is up and running:
+一旦 `litellm` 容器启动并运行：
 
-1. Go to the Open WebUI settings.
-2. Under "Connections," add a new "OpenAI" connection.
-3. Set the Base URL to `http://host.docker.internal:4000/v1` (adjust the port if necessary).
-4. For the API Key, use the `LITELLM_MASTER_KEY` value you defined in step 2 (e.g., `your_secret_key`).
+1. 前往 Open WebUI 设置。
+2. 在“连接”选项下，添加一个新的“OpenAI”连接。
+3. 将基础 URL 设置为 `http://host.docker.internal:4000/v1`（如有必要，请调整端口号）。
+4. 对于 API 密钥，使用您在步骤 2 中定义的 `LITELLM_MASTER_KEY` 值（例如 `your_secret_key`）。
 
-Congratulations! You've successfully migrated to an external `litellm` setup, enhancing the flexibility and maintainability of your Open WebUI installation.
+恭喜！您已成功迁移到外部 `litellm` 设置，从而增强了 Open WebUI 安装的灵活性和可维护性。
 
-## Migrating your contents from Ollama WebUI to Open WebUI
+## 从 Ollama WebUI 迁移内容到 Open WebUI
 
-Given recent name changes from [Ollama WebUI to Open WebUI](https://github.com/open-webui/open-webui/discussions/602), the docker image has been renamed. Additional steps are required to update for those people that used Ollama WebUI previously and want to start using the new images.
+鉴于最近从 [Ollama WebUI 更名为 Open WebUI](https://github.com/open-webui/open-webui/discussions/602)，Docker 镜像名称也相应更改。对于那些以前使用 Ollama WebUI 并希望开始使用新镜像的用户，需要执行一些额外步骤。
 
-## Updating to Open WebUI without keeping your data
+## 更新至 Open WebUI 而不保留数据
 
-If you want to update to the new image but don't want to keep any previous data like conversations, prompts, documents, etc. you can perform the following steps:
+如果您想更新到新的镜像但不想保留之前的任何数据（如对话、提示、文档等），可以执行以下步骤：
 
 :::danger
 
-Performing these steps will erase all your current configuration options, chat history, etc. Only LLM Models will be preserved
+执行这些步骤将删除所有当前配置选项、聊天记录等。仅保留 LLM 模型。
 
 :::
 
 ```bash
 docker rm -f ollama-webui
 docker pull ghcr.io/open-webui/open-webui:main
-[insert the equivalent command that you used to install with the new Docker image name]
+[插入您使用新 Docker 镜像名称时等效的安装命令]
 docker volume rm ollama-webui
 ```
 
-For example, for local installation it would be `docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main`. For other installation commands, check the relevant parts of this README document.
+例如，本地安装的命令是 `docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main`。对于其他安装命令，请参阅此 README 文档的相关部分。
 
-## Updating to Open WebUI while keeping your data
+## 更新至 Open WebUI 并保留数据
 
-If you want to update to the new image migrating all your previous settings like conversations, prompts, documents, etc. you can perform the following steps:
+如果您希望更新到新的镜像，并迁移所有之前的设置（如对话、提示、文档等），可以执行以下步骤：
 
 ```bash
 docker rm -f ollama-webui
 docker pull ghcr.io/open-webui/open-webui:main
-# Creates a new volume and uses a temporary container to copy from one volume to another as per https://github.com/moby/moby/issues/31154#issuecomment-360531460
+# 创建一个新卷，并使用临时容器将一个卷的内容复制到另一个卷，具体方法见 https://github.com/moby/moby/issues/31154#issuecomment-360531460
 docker volume create --name open-webui
 docker run --rm -v ollama-webui:/from -v open-webui:/to alpine ash -c "cd /from ; cp -av . /to"
-[insert the equivalent command that you used to install with the new Docker image name]
+[插入您使用新 Docker 镜像名称时等效的安装命令]
 ```
 
-Once you verify that all the data has been migrated you can erase the old volume using the following command:
+一旦确认所有数据都已迁移，您可以使用以下命令删除旧卷：
 
 ```bash
 docker volume rm ollama-webui
 ```
 
-### Coming from a local Git repository
+### 来自本地 Git 仓库
 
-If you came from a git installation where you used `docker compose up` in the project directory, your volumes will be prefixed with the folder name.
-Therefore, if your OpenWebUI path was: `/home/myserver/ollama-webui/`, the volumes would be named "ollama-webui_open-webui" and "ollama-webui_ollama".
+如果您是从一个 Git 安装项目来的，并且使用了 `docker compose up` 命令在项目目录中运行，那么您的卷名称将带有文件夹前缀。
+因此，如果您的 OpenWebUI 路径是 `/home/myserver/ollama-webui/`，则卷名称将是 "ollama-webui_open-webui" 和 "ollama-webui_ollama"。
 
-To copy the contents over to a conventional docker installation, you may run similar migration commands. In our particular case, the commands would be:
+要将内容复制到常规的 Docker 安装中，您可以运行类似的迁移命令。在这种情况下，命令如下：
 ```bash
 docker rm -f open-webui
 docker rm -f ollama
@@ -101,8 +101,8 @@ docker run --rm -v ollama-webui_open-webui:/from -v open-webui:/to alpine ash -c
 docker run --rm -v ollama-webui_ollama:/from -v ollama:/to alpine ash -c "cd /from ; cp -av . /to"
 ```
 
-Depending on whether you had ollama installed, or already had the same volume names in place, some of the commands **might throw errors**, but they can usually be safely ignored since we're overwriting.
+根据您是否安装了 ollama 或者已经使用相同的卷名称，某些命令可能会报错，但通常可以忽略这些错误，因为我们是在覆盖。
 
-Then, start both containers as usual, as described in the Getting started guide. 
+然后，按照入门指南中的说明正常启动两个容器。
 
-Once you verify that all the data has been migrated you can erase the old volume using the command `docker volume rm` mentioned above.
+一旦确认所有数据都已迁移，您可以使用上述 `docker volume rm` 命令删除旧卷。

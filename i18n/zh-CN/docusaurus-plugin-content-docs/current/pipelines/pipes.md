@@ -1,21 +1,25 @@
 ---
 sidebar_position: 2
-title: "🔧 Pipes"
+title: "🔧 管道"
 ---
 
-# Pipes
-Pipes are functions that can be used to perform actions prior to returning LLM messages to the user. Examples of potential actions you can take with Pipes are Retrieval Augmented Generation (RAG), sending requests to non-OpenAI LLM providers (such as Anthropic, Azure OpenAI, or Google), or executing functions right in your web UI. Pipes can be hosted as a Function or on a Pipelines server. A list of examples is maintained in the [Pipelines repo](https://github.com/open-webui/pipelines/tree/main/examples/pipelines). The general workflow can be seen in the image below.
+# 管道
+
+管道是一类函数，可以在将大型语言模型（LLM）的消息返回给用户之前执行某些操作。你可以通过管道实现的操作包括：检索增强生成（RAG）、向非 OpenAI 的 LLM 提供商（如 Anthropic、Azure OpenAI 或 Google）发送请求，或者直接在你的 Web UI 中执行功能。管道可以托管为一个函数或在一个管道服务器上运行。管道的示例列表可以在 [Pipelines 仓库](https://github.com/open-webui/pipelines/tree/main/examples/pipelines)中找到。一般的工作流程可以参考下图。
+
 
 <p align="center">
   <a href="#">
-    <img src="/img/pipelines/pipes.png" alt="Pipe Workflow" />
+    <img src="/img/pipelines/pipes.png" alt="管道工作流" />
   </a>
 </p>
 
-Pipes that are defined in your WebUI show up as a new model with an "External" designation attached to them. An example of two Pipe models, `Database RAG Pipeline` and `DOOM`, can be seen below next to two self-hosted models:
+
+在你的 WebUI 中定义的管道会显示为带有“外部”标识的新模型。以下是两个管道模型的示例：“数据库 RAG 管道”和“DOOM”，它们与两个自托管模型一起展示如下：
+
 
 <p align="center">
   <a href="#">
-    <img src="/img/pipelines/pipe-model-example.png" alt="Pipe Models in WebUI" />
+    <img src="/img/pipelines/pipe-model-example.png" alt="WebUI 中的管道模型" />
   </a>
 </p>
