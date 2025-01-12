@@ -42,7 +42,26 @@ const config: Config = {
 	markdown: {
 		mermaid: true,
 	},
-	themes: ["@docusaurus/theme-mermaid"],
+	themes: [
+		"@docusaurus/theme-mermaid",
+		[
+			require.resolve("@easyops-cn/docusaurus-search-local"),
+			/** @type {import("@easyops-cn/docusaurus-search-local").PluginOptions} */
+			({
+				//如果有可能对索引文件进行长期缓存，建议使用 `hashed`
+				hashed: true,
+				// For Docs using Chinese, The `language` is recommended to set to:
+				language: ["en", "zh"],
+				docsRouteBasePath: "/",
+				//文档目录
+				docsDir: "i18n/zh-CN/docusaurus-plugin-content-docs/*",
+				//搜索高亮
+				highlightSearchTermsOnTargetPage: true,
+				explicitSearchResultPath: true,
+				
+			}),
+		  ],
+	],
 
 	presets: [
 		[
@@ -173,12 +192,12 @@ const config: Config = {
 		},
 	} satisfies Preset.ThemeConfig,
 	plugins: [
-        [
-            'docusaurus-lunr-search',
-            {
-                languages: ['en', 'zh']
-            }
-        ]
+        // [
+        //     'docusaurus-lunr-search',
+        //     {
+        //         languages: ['en', 'zh']
+        //     }
+        // ]
     ]
 };
 
