@@ -54,7 +54,7 @@ const config: Config = {
 				language: ["en", "zh"],
 				docsRouteBasePath: "/",
 				//文档目录
-				docsDir: "i18n/zh-CN/docusaurus-plugin-content-docs/*",
+				docsDir: "i18n/zh-CN/docusaurus-plugin-content-docs/",
 				//搜索高亮
 				highlightSearchTermsOnTargetPage: true,
 				explicitSearchResultPath: true,

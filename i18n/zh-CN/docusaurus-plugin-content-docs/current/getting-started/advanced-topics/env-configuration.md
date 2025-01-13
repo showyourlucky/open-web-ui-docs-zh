@@ -31,7 +31,7 @@ Open WebUI 提供了大量的环境变量，允许您自定义和配置应用程
 
 ## 应用程序/后端
 
-以下环境变量由 `backend/config.py` 使用，以提供 Open WebUI 启动配置。请注意，根据您是直接运行 Open WebUI 还是通过 Docker 运行，某些变量可能具有不同的默认值。有关日志记录环境变量的详细信息，请参阅我们的[日志记录文档](https://docs.openwebui.com/getting-started/advanced-topics/logging)。
+以下环境变量由 `backend/config.py` 使用，以提供 Open WebUI 启动配置。请注意，根据您是直接运行 Open WebUI 还是通过 Docker 运行，某些变量可能具有不同的默认值。有关日志记录环境变量的详细信息，请参阅我们的[日志记录文档](/getting-started/advanced-topics/logging)。
 
 ### 通用
 
